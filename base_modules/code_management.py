@@ -11,7 +11,7 @@ class meta_python():
         self.Verbose = Verbose
         self.Output = Output
 
-        self.combined_code = ""
+        self.combined_raw_code = ""
         self.codeObject = ""
         self.stdout = ""
         self.past_error_history = []
@@ -27,10 +27,10 @@ class meta_python():
             print("raw string line by line:")
             for line in line_list:
                 print(repr(line))
-        self.combined_code = "".join(str(item) for item in line_list)
+        self.combined_raw_code = "".join(str(item) for item in line_list)
         if self.Verbose:
             print("raw string combined:")
-            print("combined_list", repr(self.combined_code))
+            print("combined raw code", repr(self.combined_raw_code))
 
     def write(self, the_code):
         f = open(self.File_path, "w")
@@ -39,7 +39,7 @@ class meta_python():
 
     def compile(self):
         try:
-            self.codeObject = compile(self.combined_code, 'sumstring_1', 'exec')
+            self.codeObject = compile(self.combined_raw_code, 'code_to_be_compiled', 'exec')
         except:
             print("The compilation process failed")
 
@@ -60,7 +60,7 @@ class meta_python():
                                        AutoFunction only considers the last {output_length_limit} strings of the standard output.")
                     self.stdout = self.stdout[-output_length_limit:]
 
-            if (output_required or self.Output != None) and "save" not in self.combined_code:
+            if (output_required or self.Output != None) and "save" not in self.combined_raw_code:
                 if len(self.stdout) == 0:
                     print("However, the code lacks a function call or valid output")
                 else:
@@ -85,14 +85,15 @@ class meta_python():
 
             self.buggy = True
 
-    def execute_and_test(self, output_required=False, capture_error=False, output_length_limit=None):
-        global_before = (globals().keys())
+    def execute_and_test(self, ret_dict, output_required=False, capture_error=False, output_length_limit=None):
+
+        global_before = list(globals().keys())
         if self.Verbose:
             print("global variables before testing:", global_before)
 
         self.execute_and_test_base(output_required, capture_error, output_length_limit)
 
-        global_after = (globals().keys())
+        global_after = list(globals().keys())
         if self.Verbose:
             print("global variables after testing:", global_after)
 
@@ -103,24 +104,26 @@ class meta_python():
         for n in excessive_global:
             del globals()[n]
 
+        ret_dict["stdout"], ret_dict["error"], ret_dict["tb"] = self.stdout, self.error, self.tb
 
-def overtime_kill(target_function, target_function_args=None, time_limit=60):
+
+def overtime_kill(target_function, target_function_args=None, time_limit=60, ret=True):
+    ret_dict = multiprocessing.Manager().dict()
+
     if target_function_args != None:
-        p = multiprocessing.Process(target=target_function, args=target_function_args)
+        p = multiprocessing.Process(target=target_function, args=(ret_dict,) + target_function_args)
+    elif ret:
+        p = multiprocessing.Process(target=target_function, args=(ret_dict,))
     else:
         p = multiprocessing.Process(target=target_function)
 
     p.start()
     p.join(time_limit)
-
     if p.is_alive():
         print(f"The execution of the code takes longer than {time_limit} seconds, terminating the execution...")
-
         p.terminate()
         p.join()
-
-        return True
+        return True, dict(ret_dict)
     else:
         print("The execution of the code finishes in time")
-
-        return False
+        return False, dict(ret_dict)

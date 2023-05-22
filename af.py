@@ -14,6 +14,10 @@ For example:"1.population_size: the size of the population, 2.max_generation: th
 parser.add_argument("-out", "--output",
                     help='The output of the function. For example: "the fitness of the best individual"', default=None,
                     type=None)
+parser.add_argument("-l", "--time_limit",
+                    help='The time limit that each execution of the code can take in seconds. For example, 60.',
+                    default=60,
+                    type=int)
 parser.add_argument("-e", "--environment", help='Describe the available python base_modules in your environment. \
 For example: "1.numpy"', default=None, type=None)
 parser.add_argument("-t", "--minimum_trial", help="The minimum number of iterations AutoFunction should try. Note that \
@@ -38,6 +42,6 @@ print("Starting AutoFunction with the following configuration:", config)
 
 af_instance = AutoFunction(Objective=config["objective"], File_path=config["file_path"],
                            Minimum_trial=config["minimum_trial"], Resume=config["resume"], Input=config["input"],
-                           Output=config["output"], Environment=config["environment"],
-                           Infinity_mode=config["infinity_mode"], key=config["openapi_key"], Verbose=config["verbose"])
+                           Output=config["output"], Time_limit=config["time_limit"], Environment=config["environment"],
+                           Infinity_mode=config["infinity_mode"], Key=config["openapi_key"], Verbose=config["verbose"])
 af_instance.run()

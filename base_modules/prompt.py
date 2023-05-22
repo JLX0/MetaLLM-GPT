@@ -1,31 +1,35 @@
+from copy import deepcopy
+
+
 class prompt_settings:
-    prompt_message = [{"role": "system", "content": "You are a programming expert."},
-                      {"role": "system",
-                       "content": "The code should always include at least one function call inside it to demonstrate an execution"},
-                      {"role": "system", "content": "For your response, you should strictly follow the format ```python <python code that includes at least one function call to demonstrate an execution> ``` \
+    base_prompt_message = [{"role": "system", "content": "You are a programming expert."},
+                           {"role": "system",
+                            "content": "The code should always include at least one function call inside it to demonstrate an execution"},
+                           {"role": "system", "content": "For your response, you should strictly follow the format ```python <python code that includes at least one function call to demonstrate an execution> ``` \
                 <Explanation about the generated code>"},
-                      {"role": "system",
-                       "content": "You should always write all of the codes you generated in a single block. Any python codes in your response should always start with ```python and end with ```."},
-                      {"role": "system",
-                       "content": "You should always include the full code in your response, instead of simply the modified part of the code or the function call."},
-                      {"role": "system",
-                       "content": "You are forbidden to only include the modified part of the code in your response."},
-                      {"role": "system",
-                       "content": "You are forbidden to only include the function call of the code in your response."},
-                      {"role": "system",
-                       "content": "If your code is a python script, then your code should not require any user input"},
-                      {"role": "system",
-                       "content": "The user is not using any notebook environment. You are forbidden to include any exclamation mark in the code"},
-                      {"role": "system", "content": "Do not include pip install in the code"},
-                      {"role": "system", "content": "Do not include argparse in the code"},
-                      {"role": "system", "content": "Do not include try or except in the code"}
-                      ]
+                           {"role": "system",
+                            "content": "You should always write all of the codes you generated in a single block. Any python codes in your response should always start with ```python and end with ```."},
+                           {"role": "system",
+                            "content": "You should always include the full code in your response, instead of simply the modified part of the code or the function call."},
+                           {"role": "system",
+                            "content": "You are forbidden to only include the modified part of the code in your response."},
+                           {"role": "system",
+                            "content": "You are forbidden to only include the function call of the code in your response."},
+                           {"role": "system",
+                            "content": "If your code is a python script, then your code should not require any user input"},
+                           {"role": "system",
+                            "content": "The user is not using any notebook environment. You are forbidden to include any exclamation mark in the code"},
+                           {"role": "system", "content": "Do not include pip install in the code"},
+                           {"role": "system", "content": "Do not include argparse in the code"},
+                           {"role": "system", "content": "Do not include try or except in the code"}
+                           ]
 
     def __init__(self, Input, Output, Objective, Environment):
         self.Input = Input
         self.Output = Output
         self.Objective = Objective
         self.Environment = Environment
+        self.prompt_message = deepcopy(prompt_settings.base_prompt_message)
         self.prompt_message += [{"role": "system",
                                  "content": "The objective of the code is to " + self.Objective}]
 
@@ -72,3 +76,7 @@ class prompt_settings:
         else:
             self.prompt_message += [{"role": "system", "content": "The available python base_modules for the code only include the built-in python base_modules. The code in your generated response should not\
             include any extra python packages"}]
+
+    def reset(self):
+        self.prompt_message = deepcopy(prompt_settings.base_prompt_message)
+        self.input_and_output_type()
