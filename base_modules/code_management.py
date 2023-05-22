@@ -12,9 +12,9 @@ class meta_python():
         self.Output = Output
 
         self.combined_raw_code = ""
-        self.codeObject = ""
+        self.compiled_code = ""
         self.stdout = ""
-        self.past_error_history = []
+        self.past_error_history = [] # check whether error repeats a lot?
         self.buggy = False
         self.error = ""
         self.stdout = ""
@@ -39,7 +39,7 @@ class meta_python():
 
     def compile(self):
         try:
-            self.codeObject = compile(self.combined_raw_code, 'code_to_be_compiled', 'exec')
+            self.compiled_code = compile(self.combined_raw_code, 'code_to_be_compiled', 'exec')
         except:
             print("The compilation process failed")
 
@@ -50,7 +50,7 @@ class meta_python():
         try:
             f = io.StringIO()
             with redirect_stdout(f):
-                exec(self.codeObject, globals())
+                exec(self.compiled_code, globals())
             self.stdout = f.getvalue()
             print("The code runs smoothly")
 
