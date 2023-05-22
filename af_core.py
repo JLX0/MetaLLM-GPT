@@ -99,8 +99,6 @@ class AutoFunction:
         else:
             output_required = False
 
-        # self.meta_instance.execute_and_test(output_required, True, 2000)
-
         self.execution_killed, shared_variables = overtime_kill(self.meta_instance.execute_and_test,
                                                                 target_function_args=(output_required, True, 2000,),
                                                                 time_limit=self.Time_limit)
