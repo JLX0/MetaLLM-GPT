@@ -155,10 +155,10 @@ class AutoFunction:
     def retrieve_code_and_test_length(self):
         self.result_length_sufficient = True
         if self.trial_count == 1:
-            self.retrieved_code = GPT_turbo.find_string_in_the_middle(self.response)
+            self.retrieved_code = GPT_turbo.extract_code_from_GPT_turbo(self.response)
         else:
-            if len(GPT_turbo.find_string_in_the_middle(self.response)) >= 0.5 * len(self.retrieved_code):
-                self.retrieved_code = GPT_turbo.find_string_in_the_middle(self.response)
+            if len(GPT_turbo.extract_code_from_GPT_turbo(self.response)) >= 0.5 * len(self.retrieved_code):
+                self.retrieved_code = GPT_turbo.extract_code_from_GPT_turbo(self.response)
             else:
                 print(f"---------Iteration {self.trial_count} failed!---------")
                 print("Reason of failure: the modified code is too short, change aborted")
