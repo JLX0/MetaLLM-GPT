@@ -2,11 +2,10 @@ import time
 import openai
 
 
-
 class GPT_turbo():
 
-    def __init__(self,key,initial_start_time=0):
-        self.previous_start =initial_start_time
+    def __init__(self, key, initial_start_time=0):
+        self.previous_start = initial_start_time
 
         openai.api_key = key
 
@@ -38,5 +37,3 @@ class GPT_turbo():
             time.sleep(time_left + 0.1)
 
         self.previous_start = time.time()
-
-

@@ -3,6 +3,7 @@ from contextlib import redirect_stdout
 import traceback
 import multiprocessing
 
+
 class meta_python():
 
     def __init__(self, File_path, Output=None, Verbose=False):
@@ -31,7 +32,7 @@ class meta_python():
             print("raw string combined:")
             print("combined_list", repr(self.combined_code))
 
-    def write(self,the_code):
+    def write(self, the_code):
         f = open(self.File_path, "w")
         f.write(the_code)
         f.close()
@@ -42,7 +43,7 @@ class meta_python():
         except:
             print("The compilation process failed")
 
-    def execute_and_test_base(self, output_required=False, capture_error=False):
+    def execute_and_test_base(self, output_required=False, capture_error=False, output_length_limit=None):
 
         print("Begin running the code")
 
@@ -52,6 +53,13 @@ class meta_python():
                 exec(self.codeObject, globals())
             self.stdout = f.getvalue()
             print("The code runs smoothly")
+
+            if output_length_limit != None:
+                if len(self.stdout) > output_length_limit:
+                    print(f"Warning: The length of the standard output is too long, \
+                                       AutoFunction only considers the last {output_length_limit} strings of the standard output.")
+                    self.stdout = self.stdout[-output_length_limit:]
+
             if (output_required or self.Output != None) and "save" not in self.combined_code:
                 if len(self.stdout) == 0:
                     print("However, the code lacks a function call or valid output")
@@ -77,12 +85,12 @@ class meta_python():
 
             self.buggy = True
 
-    def execute_and_test(self, output_required=False, capture_error=False):
+    def execute_and_test(self, output_required=False, capture_error=False, output_length_limit=None):
         global_before = (globals().keys())
         if self.Verbose:
             print("global variables before testing:", global_before)
 
-        self.execute_and_test_base(output_required, capture_error)
+        self.execute_and_test_base(output_required, capture_error, output_length_limit)
 
         global_after = (globals().keys())
         if self.Verbose:
@@ -96,8 +104,8 @@ class meta_python():
             del globals()[n]
 
 
-def overtime_kill(target_function,target_function_args=None, time_limit=60):
-    if target_function_args!=None:
+def overtime_kill(target_function, target_function_args=None, time_limit=60):
+    if target_function_args != None:
         p = multiprocessing.Process(target=target_function, args=target_function_args)
     else:
         p = multiprocessing.Process(target=target_function)
