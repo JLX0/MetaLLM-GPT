@@ -14,7 +14,7 @@ class meta_python():
         self.combined_raw_code = ""
         self.compiled_code = ""
         self.stdout = ""
-        self.past_error_history = [] # check whether error repeats a lot?
+        self.past_error_history = []  # check whether error repeats a lot?
         self.buggy = False
         self.error = ""
         self.stdout = ""
@@ -104,7 +104,8 @@ class meta_python():
         for n in excessive_global:
             del globals()[n]
 
-        ret_dict["stdout"], ret_dict["error"], ret_dict["tb"] = self.stdout, self.error, self.tb
+        ret_dict["stdout"], ret_dict["error"], ret_dict["tb"], ret_dict[
+            "buggy"] = self.stdout, self.error, self.tb, self.buggy
 
 
 def overtime_kill(target_function, target_function_args=None, time_limit=60, ret=True):

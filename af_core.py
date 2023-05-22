@@ -106,7 +106,7 @@ class AutoFunction:
             self.stdout = shared_variables["stdout"]
             self.error = shared_variables["error"]
             self.tb = shared_variables["tb"]
-            self.debug_required = self.meta_instance.buggy
+            self.debug_required = shared_variables["buggy"]
 
     def send_inquiry(self):
         self.prompt.reset()
