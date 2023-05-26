@@ -55,3 +55,5 @@ pip install openai
 # Contributors
 
 Jinglue Xu, Nagar Anthel Venkatesh Suryanarayanan, Ding Xia
+
+Contact: jingluexu@gmail.com
