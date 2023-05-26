@@ -77,6 +77,9 @@ as GPT might try to execute Linux commands in the notebook.
 If you want to use the *-e* argument (in order to create code beyond the built-in packages in Python)
 , it would be safer to download the required packages in the environment beforehand.
 
+By default, MetaGPT assumes you want to use GPT 3.5. If you want to use GPT 4, please
+set the argument *-g* to "4".
+
 ## Example 1: Generate a Python code of a genetic algorithm
 
 The expected input of the algorithm (arguments of the function) 
