@@ -60,8 +60,7 @@ pip install openai
 Before using MetaGPT, please make sure that you have met the general requirements
 as specified in *Installation and requirements*.
 
-You can run the following command to check the configuration information of 
-MetaGPT:
+You can run the following command to check how to configure MetaGPT:
 ```
 python3 mg.py -h
 ```
