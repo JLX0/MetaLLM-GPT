@@ -4,7 +4,7 @@ from mg_core import MetaGPT
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-o", "--objective",
-                    help='(Required argument) Describe the objective of this function. For example: "create a python '
+                    help='(Required argument) Describe the objective of this code. For example: "create a python '
                          'code example using genetic algorithm"',
                     required=True)
 parser.add_argument("-f", "--file_path", help='(Required argument) The path to the python file what is supposed to be '
