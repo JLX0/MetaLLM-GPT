@@ -17,7 +17,41 @@ networks that can generate text based on the context.
 
 Here is a simple illustration about our algorithm:
 
-
+![alt text](https://github.com/JLX0/MetaGPT/blob/main/illustration.png?raw=true)
 
 <hr/>
 
+# Installation and requirements
+
+* Linux-based system (tested with Ubuntu 20.04 and 22.02)
+* Python 3.7.1 or higher. We recommend using a new virtual environment 
+(e.g., conda)
+```
+conda create -n mg python=3.10
+```
+```
+conda activate mg
+```
+* This repository
+```
+git clone https://github.com/JLX0/MetaGPT.git
+```
+```
+cd MetaGPT
+```
+* The OpenAI Python library (tested with 0.27.6)
+```
+pip install openai
+```
+<hr/>
+
+* A working OpenAI API key with GPT-3.5 and/or GPT 4 access. You can get one from
+[here](https://platform.openai.com/account/api-keys).
+
+# Example usages
+
+<hr/>
+
+# Contributors
+
+Jinglue Xu, Nagar Anthel Venkatesh Suryanarayanan, Ding Xia
