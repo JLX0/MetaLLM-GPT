@@ -25,7 +25,7 @@ Here is a simple illustration about our algorithm:
 
 * Linux-based system (tested with Ubuntu 20.04 and 22.02)
 * Python 3.7.1 or higher. We recommend using a new virtual environment 
-(e.g., conda)
+(e.g., [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html))
 ```
 conda create -n mg python=3.10
 ```
