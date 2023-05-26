@@ -55,10 +55,10 @@ pip install openai
 
 # Usage
 
-Before running the examples, please make sure that you have met the general requirements
-as specified in *Installation and requirements*.
-
 ## In general
+
+Before using MetaGPT, please make sure that you have met the general requirements
+as specified in *Installation and requirements*.
 
 You can run the following command to check the configuration information of 
 MetaGPT:
