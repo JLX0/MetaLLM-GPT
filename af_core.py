@@ -8,10 +8,11 @@ from base_modules.code_management import meta_python
 from base_modules.code_management import overtime_kill
 
 
-class AutoFunction:
+class MetaGPT:
 
     def __init__(self, Objective, File_path, Minimum_trial, Resume, Input=None,
-                 Output=None, Time_limit=60, Environment=None, Infinity_mode=False, Key=None, Verbose=False):
+                 Output=None, Time_limit=60, Environment=None, Infinity_mode=False, Key=None, Model="3.5",
+                 Verbose=False):
 
         self.Objective = Objective
         self.File_path = File_path
@@ -32,7 +33,14 @@ class AutoFunction:
         self.combined_raw_code, self.error, self.stdout, self.tb, self.response, \
         self.retrieved_code = "", "", "", "", "", ""
 
-        if self.Output == None:
+        if Model == "3.5":
+            self.model = "gpt-3.5-turbo"
+        elif Model == "4":
+            self.model = "gpt-4"
+        else:
+            raise Exception("Model should be either 3.5 or 4")
+
+        if self.Output is None:
             self.No_output = True
         else:
             self.No_output = False
@@ -57,10 +65,10 @@ class AutoFunction:
                           self.No_output,
                           self.Infinity_mode)
 
-                if self.debug_required == False and self.trial_count > self.Minimum_trial and self.result_length_sufficient == True and self.execution_killed == False and (
-                        len(self.stdout) != 0 or self.Output == None or "save" in self.combined_raw_code
-                        or self.No_output == True) and self.Infinity_mode == False:
-                    print("AutoFunction reaches the termination criteria!")
+                if not self.debug_required and self.trial_count > self.Minimum_trial and self.result_length_sufficient \
+                        and not self.execution_killed and (len(self.stdout) != 0 or self.Output is None or "save" in
+                                                           self.combined_raw_code or self.No_output) and not self.Infinity_mode:
+                    print("MetaGPT reaches the termination criteria!")
                     break
 
                 if not self.debug_required:
@@ -94,7 +102,7 @@ class AutoFunction:
         self.meta_instance.compile()
         self.combined_raw_code = self.meta_instance.combined_raw_code
 
-        if self.Output != None:
+        if self.Output is not None:
             output_required = True
         else:
             output_required = False
@@ -116,26 +124,26 @@ class AutoFunction:
             if self.execution_killed:
                 self.prompt.action_type("Killed", self.combined_raw_code, self.error, self.stdout, self.tb)
                 response = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo",
+                    model=self.model,
                     messages=self.prompt.prompt_message
                 )
             else:
                 if self.debug_required:
                     self.prompt.action_type("Debug", self.combined_raw_code, self.error, self.stdout, self.tb)
                     response = openai.ChatCompletion.create(
-                        model="gpt-3.5-turbo",
+                        model=self.model,
                         messages=self.prompt.prompt_message
                     )
                 else:
                     self.prompt.action_type("Improve", self.combined_raw_code, self.error, self.stdout, self.tb)
                     response = openai.ChatCompletion.create(
-                        model="gpt-3.5-turbo",
+                        model=self.model,
                         messages=self.prompt.prompt_message
                     )
         else:
             self.prompt.action_type("Create", self.combined_raw_code, self.error, self.stdout, self.tb)
             response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
+                model=self.model,
                 messages=self.prompt.prompt_message
             )
 

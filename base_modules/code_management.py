@@ -54,13 +54,14 @@ class meta_python():
             self.stdout = f.getvalue()
             print("The code runs smoothly")
 
-            if output_length_limit != None:
+            if output_length_limit is not None:
                 if len(self.stdout) > output_length_limit:
                     print(f"Warning: The length of the standard output is too long, \
-                                       AutoFunction only considers the last {output_length_limit} strings of the standard output.")
+                                       MetaGPT only considers the last {output_length_limit} strings of the standard "
+                          f"output.")
                     self.stdout = self.stdout[-output_length_limit:]
 
-            if (output_required or self.Output != None) and "save" not in self.combined_raw_code:
+            if (output_required or self.Output is not None) and "save" not in self.combined_raw_code:
                 if len(self.stdout) == 0:
                     print("However, the code lacks a function call or valid output")
                 else:
@@ -75,7 +76,7 @@ class meta_python():
             if e.__class__.__name__ == 'ModuleNotFoundError':
                 print("The generated code cannot be tested due to missing packages. It is advised to either change "
                       "the objective, describe your current environment, or install the missing packages before "
-                      "proceeding with AutoFunction")
+                      "proceeding with MetaGPT")
                 if capture_error:
                     print("The error message is:", self.error)
             else:
@@ -109,9 +110,11 @@ class meta_python():
 
 
 def overtime_kill(target_function, target_function_args=None, time_limit=60, ret=True):
+    # converting this function into a decorator might make it less convenient
+
     ret_dict = multiprocessing.Manager().dict()
 
-    if target_function_args != None:
+    if target_function_args is not None:
         p = multiprocessing.Process(target=target_function, args=(ret_dict,) + target_function_args)
     elif ret:
         p = multiprocessing.Process(target=target_function, args=(ret_dict,))
