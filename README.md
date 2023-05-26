@@ -56,4 +56,7 @@ pip install openai
 
 Jinglue Xu, Nagar Anthel Venkatesh Suryanarayanan, Ding Xia
 
-Contact: jingluexu@gmail.com
+If you have any inquires or want to collaborate with us, please contact us by 
+emailing: jingluexu@gmail.com
+
+If you like our project, please star our repository and share it with your friends!
