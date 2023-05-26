@@ -7,7 +7,7 @@ parser.add_argument("-o", "--objective",
                     help='(Required argument) Describe the objective of this code. For example: "create a python '
                          'code example using genetic algorithm"',
                     required=True)
-parser.add_argument("-f", "--file_path", help='(Required argument) The path to the python file what is supposed to be '
+parser.add_argument("-f", "--file_path", help='(Required argument) The path to the Python file that is supposed to be '
                                               'read and written by MetaGPT. For example: "code.py". The file can '
                                               'include existing code, but it is advised to keep a separate copy of '
                                               'your existing code.', required=True)
