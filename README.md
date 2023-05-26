@@ -45,7 +45,7 @@ pip install openai
 ```
 <hr/>
 
-* A working OpenAI API key with GPT-3.5 and/or GPT 4 access. You can get one from
+* OpenAI API key with GPT-3.5 and/or GPT 4 access. You can get one from
 [here](https://platform.openai.com/account/api-keys).
 
 # Example usages
