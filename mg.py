@@ -1,5 +1,5 @@
 import argparse
-from mg_core import MetaGPT
+from mg_core import MetaLLM_GPT
 
 parser = argparse.ArgumentParser()
 
@@ -8,7 +8,7 @@ parser.add_argument("-o", "--objective",
                          'code example using genetic algorithm"',
                     required=True)
 parser.add_argument("-f", "--file_path", help='(Required argument) The path to the Python file that is supposed to be '
-                                              'read and written by MetaGPT. For example: "code.py". The file can '
+                                              'read and written by MetaLLM-GPT. For example: "code.py". The file can '
                                               'include existing code, but it is advised to keep a separate copy of '
                                               'your existing code.', required=True)
 parser.add_argument("-k", "--openapi_key", help='(Required argument) The openAPI key you want to use. If None, '
@@ -32,29 +32,29 @@ parser.add_argument("-l", "--time_limit",
                     type=int)
 parser.add_argument("-e", "--environment", help='Describe the available python modules in your environment. \
 For example: "1.numpy"', default=None, type=None)
-parser.add_argument("-t", "--minimum_trial", help="The minimum number of iterations MetaGPT should try. Note that \
-if the code is buggy or lacks output, then MetaGPT \
+parser.add_argument("-t", "--minimum_trial", help="The minimum number of iterations MetaLLM-GPT should try. Note that \
+if the code is buggy or lacks output, then MetaLLM-GPT \
 continues beyond the minimum number of iterations. For example: 10", default=10, type=int)
 parser.add_argument("-r", "--resume",
                     help="Whether or not you already have an existing code and want to improve/debug based on it. For "
                          "example: False",
                     default=False, type=bool)
 parser.add_argument("-m", "--infinity_mode",
-                    help="Whether or not you want MetaGPT to execute indefinitely until manual termination. For "
+                    help="Whether or not you want MetaLLM-GPT to execute indefinitely until manual termination. For "
                          "example: False",
                     default=False, type=bool)
 parser.add_argument("-v", "--verbose",
-                    help="Whether or not you want to display additional information to debug MetaGPT. For example: "
+                    help="Whether or not you want to display additional information to debug MetaLLM-GPT. For example: "
                          "False",
                     default=False, type=bool)
 
 args = parser.parse_args()
 config = vars(args)
-print("Starting MetaGPT with the following configuration:", config)
+print("Starting MetaLLM-GPT with the following configuration:", config)
 
-af_instance = MetaGPT(Objective=config["objective"], File_path=config["file_path"],
-                      Minimum_trial=config["minimum_trial"], Resume=config["resume"], Input=config["input"],
-                      Output=config["output"], Time_limit=config["time_limit"], Environment=config["environment"],
-                      Infinity_mode=config["infinity_mode"], Key=config["openapi_key"], Model=config["GPT_version"],
-                      Verbose=config["verbose"])
+af_instance = MetaLLM_GPT(Objective=config["objective"], File_path=config["file_path"],
+                          Minimum_trial=config["minimum_trial"], Resume=config["resume"], Input=config["input"],
+                          Output=config["output"], Time_limit=config["time_limit"], Environment=config["environment"],
+                          Infinity_mode=config["infinity_mode"], Key=config["openapi_key"], Model=config["GPT_version"],
+                          Verbose=config["verbose"])
 af_instance.run()

@@ -57,7 +57,7 @@ class meta_python():
             if output_length_limit is not None:
                 if len(self.stdout) > output_length_limit:
                     print(f"Warning: The length of the standard output is too long, \
-                                       MetaGPT only considers the last {output_length_limit} strings of the standard "
+                                       MetaLLM-GPT only considers the last {output_length_limit} strings of the standard "
                           f"output.")
                     self.stdout = self.stdout[-output_length_limit:]
 
@@ -76,7 +76,7 @@ class meta_python():
             if e.__class__.__name__ == 'ModuleNotFoundError':
                 print("The generated code cannot be tested due to missing packages. It is advised to either change "
                       "the objective, describe your current environment, or install the missing packages before "
-                      "proceeding with MetaGPT")
+                      "proceeding with MetaLLM-GPT")
                 if capture_error:
                     print("The error message is:", self.error)
             else:

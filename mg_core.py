@@ -8,7 +8,7 @@ from base_modules.code_management import meta_python
 from base_modules.code_management import overtime_kill
 
 
-class MetaGPT:
+class MetaLLM_GPT:
 
     def __init__(self, Objective, File_path, Minimum_trial, Resume, Input=None,
                  Output=None, Time_limit=60, Environment=None, Infinity_mode=False, Key=None, Model="3.5",
@@ -68,7 +68,7 @@ class MetaGPT:
                 if not self.debug_required and self.trial_count > self.Minimum_trial and self.result_length_sufficient \
                         and not self.execution_killed and (len(self.stdout) != 0 or self.Output is None or "save" in
                                                            self.combined_raw_code or self.No_output) and not self.Infinity_mode:
-                    print("MetaGPT reaches the termination criteria!")
+                    print("MetaLLM-GPT reaches the termination criteria!")
                     break
 
                 if not self.debug_required:

@@ -1,18 +1,18 @@
 # Introduction
 
-MetaGPT is an application that automatically generates Python codes based on GPT (as used
+MetaLLM-GPT is an application that automatically generates Python codes based on GPT (as used
 in ChatGPT).
 
 While the naive GPT model (as used in ChatGPT) can generate Python codes, the code 
-it generates often contains errors. Compared to ChatGPT, MetaGPT tests the 
+it generates often contains errors. Compared to ChatGPT, MetaLLM-GPT tests the 
 generated/managed codes locally and automatically ensures that the code can run 
 smoothly and meet certain expectations.
 
-Compared to [AutoGPT](https://github.com/Significant-Gravitas/Auto-GPT), MetaGPT is more
-specialized in generating Python codes. By leveraging metaprogramming, MetaGPT is more
+Compared to [AutoGPT](https://github.com/Significant-Gravitas/Auto-GPT), MetaLLM-GPT is more
+specialized in generating Python codes. By leveraging metaprogramming, MetaLLM-GPT is more
 stable and easier to use.
 
-MetaGPT combines metaprogramming (in Python) and large language models (LLMs) (GPT). 
+MetaLLM-GPT combines metaprogramming (in Python) and large language models (LLMs) (GPT). 
 * [Metaprogramming](https://en.wikipedia.org/wiki/Metaprogramming) refers to the 
 programming method which involves one program (the meta program) writing another program
 (the target program).
@@ -21,7 +21,7 @@ networks that can generate text based on the context.
 
 Here is a simple illustration of our algorithm:
 
-![alt text](https://github.com/JLX0/MetaGPT/blob/main/illustration.png?raw=true)
+![alt text](https://github.com/JLX0/MetaLLM-GPT/blob/main/illustration.png?raw=true)
 
 <hr/>
 
@@ -38,10 +38,10 @@ conda activate mg
 ```
 * This repository
 ```
-git clone https://github.com/JLX0/MetaGPT.git
+git clone https://github.com/JLX0/MetaLLM-GPT.git
 ```
 ```
-cd MetaGPT
+cd MetaLLM-GPT
 ```
 * The OpenAI Python library (tested with 0.27.6)
 ```
@@ -57,33 +57,34 @@ pip install openai
 
 ## In general
 
-Before using MetaGPT, please make sure that you have met the general requirements
+Before using MetaLLM-GPT, please make sure that you have met the general requirements
 as specified in *Installation and requirements*.
 
-You can run the following command to check how to configure MetaGPT:
+You can run the following command to check how to configure MetaLLM-GPT:
 ```
 python3 mg.py -h
 ```
 
-The file *mg.py* requires at least three arguments: -o, -f, and -k. 
+The file *mg.py* requires at least three arguments: *-o*, *-f*, and *-k*. 
 * The argument *-o* describes the objective of this code
 * The argument *-f* describes the path to the Python file that is supposed to be read 
-and written by MetaGPT
+and written by MetaLLM-GPT
 * The argument *-k* describes the openAPI key you want to use
 
-Please be careful about using a notebook format file (such as .ipynb) in *-f*, 
+Please be careful about using a notebook format file (such as *.ipynb*) in *-f*, 
 as GPT might try to execute Linux commands in the notebook.
 
-If you want to use the *-e* argument (in order to create code beyond the built-in packages in Python)
-, it would be safer to download the required packages in the environment beforehand.
+If you want to use the *-e* argument (in order to create code beyond the built-in modules
+in Python), it would be safer to download the required packages in the environment
+beforehand.
 
-By default, MetaGPT assumes you want to use GPT 3.5. If you want to use GPT 4, please
+By default, MetaLLM-GPT assumes you want to use GPT 3.5. If you want to use GPT 4, please
 set the argument *-g* to "4".
 
 ## Example 1: Generate a Python code of a genetic algorithm
 
 The expected input of the algorithm (arguments of the function) 
-include the size of the population and the maximum number of generations
+includes the size of the population and the maximum number of generations
 ```
 python3 mg.py -o "create a genetic algorithm" -f "ga.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1.population_size: the size of the population, 2.max_generation: the number of generations the algorithm creates" -out "the fitness of the best individual" -e "1.numpy"
 ```
