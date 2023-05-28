@@ -29,9 +29,10 @@ class prompt_settings:
                            {"role": "system",
                             "content": "The user is not using any notebook environment. You are forbidden to include "
                                        "any exclamation mark in the code"},
-                           {"role": "system", "content": "Do not include pip install in the code"},
-                           {"role": "system", "content": "Do not include argparse in the code"},
-                           {"role": "system", "content": "Do not include try or except in the code"}
+                           {"role": "system", "content": "Do not include any 'pip install' in the code"},
+                           {"role": "system", "content": "Do not include any 'argparse' in the code"},
+                           {"role": "system", "content": "Do not include any 'try or except' in the code"},
+                           {"role": "system", "content": "Do not include any '__name__' in the code"},
                            ]
 
     def __init__(self, Input, Output, Objective, Environment):
