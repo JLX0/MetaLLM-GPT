@@ -53,9 +53,9 @@ args = parser.parse_args()
 config = vars(args)
 print("Starting MetaLLM-GPT with the following configuration:", config)
 
-af_instance = MetaLLM_GPT(Objective=config["objective"], File_path=config["file_path"],
+mg_instance = MetaLLM_GPT(Objective=config["objective"], File_path=config["file_path"],
                           Minimum_trial=config["minimum_trial"], Resume=config["resume"], Input=config["input"],
                           Output=config["output"], Time_limit=config["time_limit"], Environment=config["environment"],
                           Infinity_mode=config["infinity_mode"], Key=config["openapi_key"], Model=config["GPT_version"],
                           Verbose=config["verbose"])
-af_instance.run()
+mg_instance.run()
