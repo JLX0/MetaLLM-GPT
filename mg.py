@@ -17,35 +17,37 @@ parser.add_argument("-k", "--openapi_key", help='(Required argument) The openAPI
                                                 'openAPI key, please check: '
                                                 'https://platform.openai.com/account/api-keys',
                     default="", type=str, required=True)
-parser.add_argument("-g", "--GPT_version", help='The version of the GPT model. Available options include "3.5" and "4"',
+parser.add_argument("-g", "--GPT_version", help='The version of the GPT model. Available options include "3.5" and '
+                                                '"4". Default="3.5"',
                     default="3.5", type=str)
 parser.add_argument("-in", "--input", help='The input arguments that should be included in the function. For '
                                            'example:"1.population_size: the size of the population, 2.max_generation: '
-                                           'the number of generations the algorithm create"',
+                                           'the number of generations the algorithm create". Default=None',
                     default=None, type=None)
 parser.add_argument("-out", "--output",
-                    help='The output of the function. For example: "the fitness of the best individual"', default=None,
-                    type=None)
+                    help='The output of the function. For example: "the fitness of the best individual". Default=None',
+                    default=None, type=None)
 parser.add_argument("-l", "--time_limit",
-                    help='The time limit that each execution of the code can take in seconds. For example, 60.',
+                    help='The time limit that each execution of the code can take in seconds. For example, '
+                         '60. Default=60',
                     default=60,
                     type=int)
 parser.add_argument("-e", "--environment", help='Describe the available python modules in your environment. \
-For example: "1.numpy"', default=None, type=None)
+For example: "1.numpy". Default=None', default=None, type=None)
 parser.add_argument("-t", "--minimum_trial", help="The minimum number of iterations MetaLLM-GPT should try. Note that \
 if the code is buggy or lacks output, then MetaLLM-GPT \
-continues beyond the minimum number of iterations. For example: 10", default=10, type=int)
+continues beyond the minimum number of iterations. For example: 10. Default=10", default=10, type=int)
 parser.add_argument("-r", "--resume",
                     help="Whether or not you already have an existing code and want to improve/debug based on it. For "
-                         "example: False",
+                         "example: False, Default=False",
                     default=False, type=bool)
 parser.add_argument("-m", "--infinity_mode",
                     help="Whether or not you want MetaLLM-GPT to execute indefinitely until manual termination. For "
-                         "example: False",
+                         "example: False. Default=False",
                     default=False, type=bool)
 parser.add_argument("-v", "--verbose",
-                    help="Whether or not you want to display additional information to debug MetaLLM-GPT. For example: "
-                         "False",
+                    help="Whether or not you want to display additional information to debug MetaLLM-GPT. For "
+                         "example: False. Default=False",
                     default=False, type=bool)
 
 args = parser.parse_args()

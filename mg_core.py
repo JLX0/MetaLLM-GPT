@@ -67,12 +67,14 @@ class MetaLLM_GPT:
 
                 if not self.debug_required and self.trial_count > self.Minimum_trial and self.result_length_sufficient \
                         and not self.execution_killed and (len(self.stdout) != 0 or self.Output is None or "save" in
-                                                           self.combined_raw_code or self.No_output) and not self.Infinity_mode:
+                                                           self.combined_raw_code or self.No_output) and not \
+                        self.Infinity_mode:
                     print("MetaLLM-GPT reaches the termination criteria!")
                     break
 
                 if not self.debug_required:
-                    if (self.Resume == False and self.trial_count > 1) or self.Resume == True:
+                    if (
+                            not self.Resume and self.trial_count > 1 and self.result_length_sufficient) or self.Resume:
                         print("Begin improving the code")
                     else:
                         print("Begin creating the code")
