@@ -11,12 +11,11 @@ parser.add_argument("-f", "--file_path", help='(Required argument) The path to t
                                               'read and written by MetaLLM-GPT. For example: "code.py". The file can '
                                               'include existing code, but it is advised to keep a separate copy of '
                                               'your existing code.', required=True)
-parser.add_argument("-k", "--openapi_key", help='(Required argument) The openAPI key you want to use. If None, '
-                                                'then a trial key is provided. For example: '
+parser.add_argument("-k", "--openapi_key", help='(Required argument) The openAPI key you want to use.For example: '
                                                 '"aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa". To find your '
                                                 'openAPI key, please check: '
                                                 'https://platform.openai.com/account/api-keys',
-                    default="", type=str, required=True)
+                    type=str, required=True)
 parser.add_argument("-g", "--GPT_version", help='The version of the GPT model. Available options include "3.5" and '
                                                 '"4". Default="3.5"',
                     default="3.5", type=str)
