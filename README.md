@@ -83,9 +83,10 @@ set the argument *-g* to "4".
 
 ## Example 1: Generate a Python code of a deep neural network
 
-This command assumes that in your current environment, Pytorch is installed. The expected input
-of the neural network is the batch size, learning rate, and training epochs. The expected output
-of the neural network is the validation accuracy of the model.
+This command assumes that in your current environment, Pytorch is installed. If you prefer other deep
+learning packages, please modify the *-e* arguments. The expected input of the neural network is the
+batch size, learning rate, and training epochs. The expected output of the neural network is the 
+validation accuracy of the model.
 ```
 python3 mg.py -o "create a deep neural network" -f "dnn.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1. bs: batch size 2. l:learning rate 3. e: training epochs " -out "the validation accuracy of the neural network" -e "1.numpy 2. pytorch" -t 300
 ```
