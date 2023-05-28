@@ -88,7 +88,7 @@ learning packages, please modify the *-e* arguments. The expected input of the n
 batch size, learning rate, and training epochs. The expected output of the neural network is the 
 validation accuracy of the model.
 ```
-python3 mg.py -o "create a deep neural network" -f "dnn.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1. bs: batch size 2. l:learning rate 3. e: training epochs " -out "the validation accuracy of the neural network" -e "1.numpy 2. pytorch" -t 300
+python3 mg.py -o "create a deep neural network" -f "dnn.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1. bs: batch size 2. l:learning rate 3. e: training epochs " -out "the validation accuracy of the neural network" -e "1.pytorch" -l 300
 ```
 Please replace the key *"aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"* with your
 own OpenAPI key. The generated code is saved in your current working directory as a file named 
