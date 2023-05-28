@@ -118,7 +118,7 @@ class MetaLLM_GPT:
             self.tb = shared_variables["tb"]
             self.debug_required = shared_variables["buggy"]
 
-    def inquiry(self, mode, message):
+    def inquiry_GPT(self, mode, message):
         self.prompt.action_type(mode, self.combined_raw_code, self.error, self.stdout, self.tb)
         response = openai.ChatCompletion.create(
             model=self.model,
@@ -131,14 +131,14 @@ class MetaLLM_GPT:
         if self.Resume:
 
             if self.execution_killed:
-                response=self.inquiry("Killed", self.prompt.prompt_message)
+                response=self.inquiry_GPT("Killed", self.prompt.prompt_message)
             else:
                 if self.debug_required:
-                    response=self.inquiry("Debug", self.prompt.prompt_message)
+                    response=self.inquiry_GPT("Debug", self.prompt.prompt_message)
                 else:
-                    response=self.inquiry("Improve", self.prompt.prompt_message)
+                    response=self.inquiry_GPT("Improve", self.prompt.prompt_message)
         else:
-            response=self.inquiry("Create", self.prompt.prompt_message)
+            response=self.inquiry_GPT("Create", self.prompt.prompt_message)
 
         response = response.choices[0].message.content
         self.response = response
