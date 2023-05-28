@@ -87,7 +87,7 @@ class MetaLLM_GPT:
                 else:
                     GPT_turbo_management.control_inquiry_frequency()
 
-                self.send_inquiry()
+                self.choose_inquiry()
 
                 self.retrieve_code_and_test_length()
 
@@ -118,36 +118,27 @@ class MetaLLM_GPT:
             self.tb = shared_variables["tb"]
             self.debug_required = shared_variables["buggy"]
 
-    def send_inquiry(self):
+    def inquiry(self, mode, message):
+        self.prompt.action_type(mode, self.combined_raw_code, self.error, self.stdout, self.tb)
+        response = openai.ChatCompletion.create(
+            model=self.model,
+            messages=message
+        )
+        return response
+    def choose_inquiry(self):
         self.prompt.reset()
 
         if self.Resume:
 
             if self.execution_killed:
-                self.prompt.action_type("Killed", self.combined_raw_code, self.error, self.stdout, self.tb)
-                response = openai.ChatCompletion.create(
-                    model=self.model,
-                    messages=self.prompt.prompt_message
-                )
+                response=self.inquiry("Killed", self.prompt.prompt_message)
             else:
                 if self.debug_required:
-                    self.prompt.action_type("Debug", self.combined_raw_code, self.error, self.stdout, self.tb)
-                    response = openai.ChatCompletion.create(
-                        model=self.model,
-                        messages=self.prompt.prompt_message
-                    )
+                    response=self.inquiry("Debug", self.prompt.prompt_message)
                 else:
-                    self.prompt.action_type("Improve", self.combined_raw_code, self.error, self.stdout, self.tb)
-                    response = openai.ChatCompletion.create(
-                        model=self.model,
-                        messages=self.prompt.prompt_message
-                    )
+                    response=self.inquiry("Improve", self.prompt.prompt_message)
         else:
-            self.prompt.action_type("Create", self.combined_raw_code, self.error, self.stdout, self.tb)
-            response = openai.ChatCompletion.create(
-                model=self.model,
-                messages=self.prompt.prompt_message
-            )
+            response=self.inquiry("Create", self.prompt.prompt_message)
 
         response = response.choices[0].message.content
         self.response = response
