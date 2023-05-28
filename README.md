@@ -4,9 +4,12 @@ MetaLLM-GPT is an application that automatically generates Python codes based on
 in ChatGPT).
 
 While the naive GPT model (as used in ChatGPT) can generate Python codes, the code 
-it generates often contains errors. Compared to ChatGPT, MetaLLM-GPT tests the 
-generated/managed codes locally and automatically ensures that the code can run 
-smoothly and meet certain expectations.
+it generates often contains errors. When using ChatGPT to create Python codes,
+you might find the code is unable to run due to various reasons (e.g., syntax errors).
+Then you might try to manually debug it or ask ChatGPT again about how to fix it. If
+you are tired of this repetitive process, MetaLLM-GPT is for you! Compared to ChatGPT, 
+MetaLLM-GPT tests the generated/managed codes locally and automatically ensures that 
+the code can run smoothly and meet certain expectations. 
 
 Compared to [AutoGPT](https://github.com/Significant-Gravitas/Auto-GPT), MetaLLM-GPT is more
 specialized in generating Python codes. By leveraging metaprogramming, MetaLLM-GPT is more
@@ -14,8 +17,8 @@ stable and easier to use.
 
 MetaLLM-GPT combines metaprogramming (in Python) and large language models (LLMs) (GPT). 
 * [Metaprogramming](https://en.wikipedia.org/wiki/Metaprogramming) refers to the 
-programming method which involves one program (the meta program) writing another program
-(the target program).
+programming method which involves one program (the meta program) reading/writing another 
+program (the target program).
 * [LLMs](https://en.wikipedia.org/wiki/Large_language_model) are recently developed neural 
 networks that can generate text based on the context.
 

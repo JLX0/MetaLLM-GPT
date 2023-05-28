@@ -125,20 +125,21 @@ class MetaLLM_GPT:
             messages=message
         )
         return response
+
     def choose_inquiry(self):
         self.prompt.reset()
 
         if self.Resume:
 
             if self.execution_killed:
-                response=self.inquiry_GPT("Killed", self.prompt.prompt_message)
+                response = self.inquiry_GPT("Killed", self.prompt.prompt_message)
             else:
                 if self.debug_required:
-                    response=self.inquiry_GPT("Debug", self.prompt.prompt_message)
+                    response = self.inquiry_GPT("Debug", self.prompt.prompt_message)
                 else:
-                    response=self.inquiry_GPT("Improve", self.prompt.prompt_message)
+                    response = self.inquiry_GPT("Improve", self.prompt.prompt_message)
         else:
-            response=self.inquiry_GPT("Create", self.prompt.prompt_message)
+            response = self.inquiry_GPT("Create", self.prompt.prompt_message)
 
         response = response.choices[0].message.content
         self.response = response
