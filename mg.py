@@ -18,7 +18,7 @@ parser.add_argument("-k", "--openapi_key", help='(Required argument) The openAPI
                                                 'https://platform.openai.com/account/api-keys',
                     default="", type=str, required=True)
 parser.add_argument("-g", "--GPT_version", help='The version of the GPT model. Available options include "3.5" and "4"',
-                    default="3.5", type=str, required=True)
+                    default="3.5", type=str)
 parser.add_argument("-in", "--input", help='The input arguments that should be included in the function. For '
                                            'example:"1.population_size: the size of the population, 2.max_generation: '
                                            'the number of generations the algorithm create"',
