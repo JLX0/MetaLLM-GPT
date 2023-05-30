@@ -8,7 +8,8 @@ parser.add_argument("-o", "--objective",
                          'code example using genetic algorithm"',
                     required=True)
 parser.add_argument("-f", "--file_path", help='(Required argument) The path to the Python file that is supposed to be '
-                                              'read and written by MetaLLM-GPT. For example: "code.py". The file can '
+                                              'read and written by MetaLLM-GPT. If the file does not exist, '
+                                              'the file will be created. For example: "code.py". The file can '
                                               'include existing code, but it is advised to keep a separate copy of '
                                               'your existing code.', required=True)
 parser.add_argument("-k", "--openapi_key", help='(Required argument) The openAPI key you want to use.For example: '
