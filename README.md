@@ -131,7 +131,7 @@ python3 mg.py -o "create a genetic algorithm" -f "ga.py" -k "aa-aaaaaaaaaaaaaaaa
 
 # Contributors
 
-Jinglue Xu, Nagar Anthel Venkatesh Suryanarayanan, Ding Xia
+Jinglue Xu, Nagar Anthel Venkatesh Suryanarayanan, Ding Xia, Tianlun Road Yossatong
 
 If you have any inquiries or want to collaborate with us, please contact us by 
 emailing: jingluexu@gmail.com
