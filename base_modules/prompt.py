@@ -100,9 +100,11 @@ class prompt_settings:
 
         if self.Privilege:
             self.prompt_message += [{"role": "system",
-                                     "content": f"You can use any python packages. For example, you can use !pip "
-                                                f"install. Your message should include !pip install and the rest of "
-                                                f"the codes in the same markdown block"}]
+                                     "content": f"You can use any python packages. When installing additional "
+                                                f"packages, use os.system('pip install package_name') and you cannot use"
+                                                f" !pip install. For example, os.system('pip install numpy'). Your "
+                                                f"message should include os.system('pip install package_name') and the"
+                                                f" rest of the codes in the same markdown block"}]
         else:
             self.prompt_message += {"role": "system", "content": "Do not include any 'pip install' in the code"}
             if self.Environment is None:

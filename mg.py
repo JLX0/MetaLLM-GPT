@@ -34,10 +34,9 @@ parser.add_argument("-l", "--time_limit",
                          '60. Default=60',
                     default=60,
                     type=int)
-parser.add_argument("-p", "--privilege", help="Whether or not you allow MetaLLM-GPT to execute Linux "
-                                              "commands, such as installing python packages from pip. If the value is "
-                                              "set as True, then the file_path should end with .ipynb, and the "
-                                              "argument environment is ignored For example: False. Default=False",
+parser.add_argument("-p", "--privilege", help="Whether or not you allow MetaLLM-GPT to install additional python "
+                                              "packages. If the value is set as True, then the argument environment "
+                                              "is ignored For example: False. Default=False",
                     default=False, type=bool)
 parser.add_argument("-e", "--environment", help='Describe the python modules in your environment which MetaLLM-GPT '
                                                 'can use to create the code. For example: "1.numpy". Default=None',

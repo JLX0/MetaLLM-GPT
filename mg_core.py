@@ -34,13 +34,6 @@ class MetaLLM_GPT:
         self.combined_raw_code, self.error, self.stdout, self.tb, self.response, \
         self.retrieved_code = "", "", "", "", "", ""
 
-        if Privilege and self.File_path.endswith(".py"):
-            print("Warning: Although you set the privilege mode, the file path is still a python file, "
-                  "and MetaLLM-GPT is not able to execute Linux commands.")
-        if not Privilege and self.File_path.endswith(".ipynb"):
-            print("Warning: Although you turn off privilege mode, the file path is still a notebook file, "
-                  "and MetaLLM-GPT ican accidentally execute Linux commands.")
-
         if Model == "3.5":
             self.model = "gpt-3.5-turbo"
         elif Model == "4":
