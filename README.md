@@ -109,7 +109,10 @@ If not, please use the following command instead:
 python3 mg.py -o "create a deep neural network that uses CPU" -f "dnn.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1. bs: batch size 2. l:learning rate 3. e: training epochs " -out "the validation accuracy of the neural network" -e "1.pytorch" -l 300
 ```
 
-## Example 2: Generate Python code of a genetic algorithm
+## Example 2: Solve complex math problems
+
+
+## Example 3: Generate Python code of a genetic algorithm
 
 The expected input of the algorithm (arguments of the function) 
 includes the size of the population and the maximum number of generations. The expected output of the algorithm is
@@ -127,8 +130,10 @@ If not, please use the following command instead:
 ```
 python3 mg.py -o "create a genetic algorithm" -f "ga.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1.population_size: the size of the population, 2.max_generation: the number of generations the algorithm creates" -out "the fitness of the best individual"
 ```
+## Example 4: Generate audio from news websites
 
-## Example 3: Draw a picture of a cat
+
+## Example 5: Draw a picture of a cat
 
 <hr/>
 
