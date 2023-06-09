@@ -26,7 +26,10 @@ Here is a simple illustration of our algorithm:
 
 ![alt text](https://github.com/JLX0/MetaLLM-GPT/blob/main/illustration.png?raw=true)
 
-<hr/>
+A easy-to-use Google Colab version is available 
+[here](https://colab.research.google.com/drive/1TWN0mDmbdH1U2i85n7YUV9CKiRG0jJ9h?usp=sharing).
+
+<hr
 
 # Installation and requirements
 
