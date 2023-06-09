@@ -43,7 +43,8 @@ class meta_python():
         except:
             print("The compilation process failed")
 
-    def execute_and_test_base(self, output_required=False, capture_error=False, output_length_limit=None):
+    def execute_and_test_base(self, output_required=False, capture_error=False, output_length_limit=None,
+                              ignore_warning=False):
 
         print("Begin running the code")
 
@@ -57,8 +58,8 @@ class meta_python():
             if output_length_limit is not None:
                 if len(self.stdout) > output_length_limit:
                     print(f"Warning: The length of the standard output is too long, \
-                                       MetaLLM-GPT only considers the last {output_length_limit} strings of the standard "
-                          f"output.")
+                                       MetaLLM-GPT only considers the last {output_length_limit} strings of the "
+                          f"standard output.")
                     self.stdout = self.stdout[-output_length_limit:]
 
             if (output_required or self.Output is not None) and "save" not in self.combined_raw_code:
@@ -74,9 +75,10 @@ class meta_python():
                 self.tb = str(traceback.format_exc())
 
             if e.__class__.__name__ == 'ModuleNotFoundError':
-                print("The generated code cannot be tested due to missing packages. It is advised to either change "
-                      "the objective, describe your current environment, or install the missing packages before "
-                      "proceeding with MetaLLM-GPT")
+                if not ignore_warning:
+                    print("The generated code cannot be tested due to missing packages. It is advised to either change "
+                          "the objective, describe your current environment, or install the missing packages before "
+                          "proceeding with MetaLLM-GPT")
                 if capture_error:
                     print("The error message is:", self.error)
             else:
@@ -86,13 +88,14 @@ class meta_python():
 
             self.buggy = True
 
-    def execute_and_test(self, ret_dict, output_required=False, capture_error=False, output_length_limit=None):
+    def execute_and_test(self, ret_dict, output_required=False, capture_error=False, output_length_limit=None,
+                         ignore_warning=False):
 
         global_before = list(globals().keys())
         if self.Verbose:
             print("global variables before testing:", global_before)
 
-        self.execute_and_test_base(output_required, capture_error, output_length_limit)
+        self.execute_and_test_base(output_required, capture_error, output_length_limit, ignore_warning=ignore_warning)
 
         global_after = list(globals().keys())
         if self.Verbose:

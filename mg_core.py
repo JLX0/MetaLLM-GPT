@@ -118,8 +118,8 @@ class MetaLLM_GPT:
             output_required = False
 
         self.execution_killed, shared_variables = overtime_kill(self.meta_instance.execute_and_test,
-                                                                target_function_args=(output_required, True, 2000,),
-                                                                time_limit=self.Time_limit)
+                                                                target_function_args=(output_required, True, 2000,
+                                                                self.Privilege,), time_limit=self.Time_limit)
         if not self.execution_killed:
             self.stdout = shared_variables["stdout"]
             self.error = shared_variables["error"]
