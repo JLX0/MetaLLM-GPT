@@ -18,7 +18,8 @@ stable and easier to use.
 Compared to the [implicit code execution in Bard](https://blog.google/technology/ai/bard-improved-reasoning-google-sheets-export/),
 MetaLLM-GPT is created independently at the same time or earlier. While Bard is great at using codes to assist 
 responses from LLM, MetaLLM-GPT is great at using LLM to assist code generation. Also, MetaLLM-GPT allows for 
-more complex code generation and execution, such as automatically installing packages and using GPU.
+more complex code generation and execution, such as automatically installing packages, automatically debugging,
+and using GPU.
 
 MetaLLM-GPT combines metaprogramming (in Python) and large language models (LLMs) (GPT). 
 * [Metaprogramming](https://en.wikipedia.org/wiki/Metaprogramming) refers to the 
