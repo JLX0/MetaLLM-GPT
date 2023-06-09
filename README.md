@@ -31,7 +31,7 @@ Here is a simple illustration of our algorithm:
 On one hand, LLM is used as a tool that assists code generation. (see examples 1, 3, and 4). On the other hand, metaprogramming is used as a tool
 for generating responses that complement LLM (see examples 2, 5, and 6).
 
-An easy-to-use Google Colab version with examples is available 
+An easy-to-use __Google Colab version__ with examples is available 
 [here](https://colab.research.google.com/drive/1TWN0mDmbdH1U2i85n7YUV9CKiRG0jJ9h?usp=sharing). The default settings
 of the notebook use GPU instances, but you can run the notebook without GPU.
 
