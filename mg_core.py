@@ -11,7 +11,7 @@ from base_modules.code_management import overtime_kill
 class MetaLLM_GPT:
 
     def __init__(self, Objective, File_path, Minimum_trial, Resume, Input=None,
-                 Output=None, Time_limit=60, Environment=None, Infinity_mode=False, Key=None, Model="3.5",
+                 Output=None, Time_limit=60, Privilege=False, Environment=None, Infinity_mode=False, Key=None, Model="3.5",
                  Verbose=False):
 
         self.Objective = Objective
@@ -21,6 +21,7 @@ class MetaLLM_GPT:
         self.Input = Input
         self.Output = Output
         self.Time_limit = Time_limit
+        self.Privilege = Privilege
         self.Environment = Environment
         self.Infinity_mode = Infinity_mode
         self.Key = Key
@@ -32,6 +33,13 @@ class MetaLLM_GPT:
         self.execution_killed = False
         self.combined_raw_code, self.error, self.stdout, self.tb, self.response, \
         self.retrieved_code = "", "", "", "", "", ""
+
+        if Privilege and self.File_path.endswith(".py"):
+            print("Warning: Although you set the privilege mode, the file path is still a python file, "
+                  "and MetaLLM-GPT is not able to execute Linux commands.")
+        if not Privilege and self.File_path.endswith(".ipynb"):
+            print("Warning: Although you turn off privilege mode, the file path is still a notebook file, "
+                  "and MetaLLM-GPT ican accidentally execute Linux commands.")
 
         if Model == "3.5":
             self.model = "gpt-3.5-turbo"
@@ -46,7 +54,7 @@ class MetaLLM_GPT:
             self.No_output = False
 
         self.meta_instance = meta_python(self.File_path, Output=self.Output, Verbose=self.Verbose)
-        self.prompt = prompt_settings(self.Input, self.Output, self.Objective, self.Environment)
+        self.prompt = prompt_settings(self.Input, self.Output, self.Objective, self.Privilege, self.Environment)
         self.prompt.input_and_output_type()
 
     def run(self):

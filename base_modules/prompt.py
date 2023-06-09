@@ -29,16 +29,16 @@ class prompt_settings:
                            {"role": "system",
                             "content": "The user is not using any notebook environment. You are forbidden to include "
                                        "any exclamation mark in the code"},
-                           {"role": "system", "content": "Do not include any 'pip install' in the code"},
                            {"role": "system", "content": "Do not include any 'argparse' in the code"},
                            {"role": "system", "content": "Do not include any 'try or except' in the code"},
                            {"role": "system", "content": "Do not include any '__name__' in the code"},
                            ]
 
-    def __init__(self, Input, Output, Objective, Environment):
+    def __init__(self, Input, Output, Objective, Privilege, Environment):
         self.Input = Input
         self.Output = Output
         self.Objective = Objective
+        self.Privilege = Privilege
         self.Environment = Environment
         self.prompt_message = deepcopy(prompt_settings.base_prompt_message)
         self.prompt_message += [{"role": "system",
@@ -94,15 +94,22 @@ class prompt_settings:
             self.prompt_message += [
                 {"role": "system",
                  "content": f"The standard output the python code should generate should be {self.Output}"}]
+
+        if self.Privilege:
             self.prompt_message += [{"role": "system",
-                                     "content": f"The available python base_modules for the code only include the "
-                                                f"built-in python base_modules and the base_modules in"
-                                                f" the list: {self.Environment}"}]
+                                     "content": f"You can use any python packages. For example, you can use !pip install"}]
         else:
-            self.prompt_message += [{"role": "system", "content": "The available python base_modules for the code "
-                                                                  "only include the built-in python base_modules. The "
-                                                                  "code in your generated response should not "
-                                                                  "include any extra python packages"}]
+            self.prompt_message += {"role": "system", "content": "Do not include any 'pip install' in the code"}
+            if self.Environment is None:
+                self.prompt_message += [{"role": "system", "content": "The available python modules for the code "
+                                                                      "only include the built-in python modules. The "
+                                                                      "code in your generated response should not "
+                                                                      "include any extra python packages"}]
+            else:
+                self.prompt_message += [{"role": "system","content": f"The available python modules for the code only "
+                                                                     f"built-in python modules and the base_modules "
+                                                                     f"in the list: {self.Environment}"}]
+
 
     def reset(self):
         self.prompt_message = deepcopy(prompt_settings.base_prompt_message)

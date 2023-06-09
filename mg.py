@@ -34,6 +34,11 @@ parser.add_argument("-l", "--time_limit",
                          '60. Default=60',
                     default=60,
                     type=int)
+parser.add_argument("-p", "--privilege", help="Whether or not you allow MetaLLM-GPT to execute Linux "
+                                              "commands, such as installing python packages from pip. If the value is "
+                                              "set as True, then the file_path should end with .ipynb. For "
+                                              "example: False. Default=False",
+                    default=False, type=bool)
 parser.add_argument("-e", "--environment", help='Describe the python modules in your environment which MetaLLM-GPT '
                                                 'can use to create the code. For example: "1.numpy". Default=None',
                     default=None, type=None)
@@ -59,7 +64,7 @@ print("Starting MetaLLM-GPT with the following configuration:", config)
 
 mg_instance = MetaLLM_GPT(Objective=config["objective"], File_path=config["file_path"],
                           Minimum_trial=config["minimum_trial"], Resume=config["resume"], Input=config["input"],
-                          Output=config["output"], Time_limit=config["time_limit"], Environment=config["environment"],
-                          Infinity_mode=config["infinity_mode"], Key=config["openapi_key"], Model=config["GPT_version"],
-                          Verbose=config["verbose"])
+                          Output=config["output"], Time_limit=config["time_limit"], Privilege=config["privilege"],
+                          Environment=config["environment"], Infinity_mode=config["infinity_mode"],
+                          Key=config["openapi_key"], Model=config["GPT_version"], Verbose=config["verbose"])
 mg_instance.run()
