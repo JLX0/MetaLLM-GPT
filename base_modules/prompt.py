@@ -32,7 +32,10 @@ class prompt_settings:
                            {"role": "system", "content": "Do not include any 'argparse' in the code"},
                            {"role": "system", "content": "Do not include any 'try or except' in the code"},
                            {"role": "system", "content": "Do not include any '__name__' in the code"},
+                           {"role": "system", "content": "If a module is repeatedly missing after multiple attempts, "
+                                                         "you should switching to other modules"},
                            ]
+
 
     def __init__(self, Input, Output, Objective, Privilege, Environment):
         self.Input = Input
@@ -97,7 +100,9 @@ class prompt_settings:
 
         if self.Privilege:
             self.prompt_message += [{"role": "system",
-                                     "content": f"You can use any python packages. For example, you can use !pip install"}]
+                                     "content": f"You can use any python packages. For example, you can use !pip "
+                                                f"install. Your message should include !pip install and the rest of "
+                                                f"the codes in the same markdown block"}]
         else:
             self.prompt_message += {"role": "system", "content": "Do not include any 'pip install' in the code"}
             if self.Environment is None:
