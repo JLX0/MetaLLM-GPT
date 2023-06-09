@@ -140,7 +140,7 @@ This example assumes that you have installed Sympy in your environment. You can 
 let MetaLLM-GPT automatically install relevant packages. However, be careful with this option.
 
 ```
-python3 mg.py -o "Consider the function f(x)=(x^3)((4x+5)^2), for what value of x is f'(x)=0" -f "integral.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -out "the value of x such that f'(x)=0" -e "1.sympy" -l 60
+python3 mg.py -o "Consider the function f(x)=(x^3)((4x+5)^2), for what value of x is f'(x)=0" -f "math.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -out "the value of x such that f'(x)=0" -e "1.sympy" -l 60
 ```
 
 ## Example 3: Generate audio from news websites
