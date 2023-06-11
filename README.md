@@ -140,7 +140,7 @@ This example assumes that you have installed Sympy in your environment. You can 
 let MetaLLM-GPT automatically install relevant packages. However, be careful with this option.
 
 ```
-python3 mg.py -o "Consider the function f(x)=(x^3)((4x+5)^2), for what value of x is f'(x)=0" -f "math.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -out "the value of x such that f'(x)=0" -e "1.sympy" -l 60
+python3 mg.py -o "Consider the function f(x)=(x^3)((4x+5)^2), for what value of x is f'(x)=0" -f "math.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -out "values of x such that f'(x)=0" -e "1.sympy" -l 60
 ```
 
 ## Example 3: Generate audio from news websites
@@ -149,7 +149,7 @@ This example sets the *-p* argument as True, because the required packages are n
 to set up a virtual environment for this example.
 
 ```
-python3 mg.py -o "grab a news article from a news website, summarize the news article, then convert the summary into an audio" -f "news_audio.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1.link. the link to the website of the news article. for example, it can be 'https://www.cnbc.com/2023/06/06/apple-ceo-tim-cook-says-ai-companies-need-to-regulate-themselves.html' 2. max_len. the maximum number of sentences in the article." -out "the audio of the summary and the path to the audio file" -p True -l 60
+python3 mg.py -o "grab a news article from a news website, summarize the news article, then convert the summary into an audio" -f "news_audio.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1.link. the link to the website of the news article. for example, it can be 'https://www.cnbc.com/2023/06/06/apple-ceo-tim-cook-says-ai-companies-need-to-regulate-themselves.html' 2. max_len. the maximum number of sentences in the summary." -out "the audio of the summary and the path to the audio file" -p True -l 300
 ```
 
 ## Example 4: Design a step in data processing
@@ -161,7 +161,7 @@ and feature engineering in machine learning often involve a complex process. Thi
 labels/outputs from three columns into one column.
 
 ```
-python3 mg.py -o "There is a dataframe of three columns. Each column represents an output/label. Merge the three columns into one column such that each value in the new column represents a distinct combination of the three values in the three columns" -f "data_process.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1.df_raw. the dataframe with three columns" -out "the dataframe with the new column and the number of distinct values in the new column" -e "1.pandas" -l 60
+python3 mg.py -o "There is a dataframe of three columns. Each column represents an output/label. Merge the three columns into one column such that each value in the new column is an integer that represents a distinct combination of the three values in the three columns" -f "data_process.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1.df_raw. the dataframe with three columns" -out "the dataframe with the new column and the number of distinct values in the new column" -e "1.pandas" -l 60
 ```
 
 ## Example 5: Optimize a function
