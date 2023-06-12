@@ -35,7 +35,8 @@ Here is a simple illustration of our algorithm:
 ![alt text](https://github.com/JLX0/MetaLLM-GPT/blob/main/illustration.png?raw=true)
 
 On one hand, LLM is used as a tool that assists code generation. (see examples 1, 3, and 4). On the other hand, metaprogramming is used as a tool
-for generating responses that complement LLM (see examples 2, 5, and 6).
+for generating responses that complement LLM (see examples 2, 5, and 6). By combining the computational
+power of Python codes and knowledge of GPT, MetaLLM-GPT demonstrates high versatility as an AI tool.
 
 An easy-to-use __Google Colab version__ with examples is available 
 [here](https://colab.research.google.com/drive/1TWN0mDmbdH1U2i85n7YUV9CKiRG0jJ9h?usp=sharing). The default settings
@@ -56,6 +57,7 @@ conda activate mg
 ```
 
 * Pip. 
+
 It is often already installed in most systems by default. You can check whether you have pip 
 by running the following command:
 ```
@@ -208,9 +210,25 @@ python3 mg.py -o "Draw a picture of a cat" -f "draw.py" -k "aa-aaaaaaaaaaaaaaaaa
 
 # Contributors
 
-Jinglue Xu, Nagar Anthel Venkatesh Suryanarayanan, Ding Xia, Yossatong Road Tianlun
+Jinglue Xu, Nagar Anthel Venkatesh Suryanarayanan, Ding Xia, Yossatong Road Tianlun, Zhen Liu
 
 If you have any inquiries or want to collaborate with us, please contact us by 
 emailing: jingluexu@gmail.com
 
 If you like our project, please star our repository and share it with your friends!
+
+<hr/>
+
+# Citation
+
+If you use any part of this code in your research, please cite our project:
+
+@misc{Xu2023MetaLLMGPT,
+  author = {Xu, Jinglue and Suryanarayanan, Nagar Anthel Venkatesh and Xia, Ding and Tianlun, Yossatong Road and Liu, Zhen
+  title = {MetaLLM-GPT},
+  year = {2023},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/JLX0/MetaLLM-GPT}},
+  commit = {0f2cf89cdd153256a142939cedcdc58d7c4865e1}
+}
