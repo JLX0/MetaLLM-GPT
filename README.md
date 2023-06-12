@@ -222,7 +222,7 @@ If you like our project, please star our repository and share it with your frien
 # Citation
 
 If you use any part of this code in your research, please cite our project:
-
+```
 @misc{Xu2023MetaLLMGPT,
   author = {Xu, Jinglue and Suryanarayanan, Nagar Anthel Venkatesh and Xia, Ding and Tianlun, Yossatong Road and Liu, Zhen
   title = {MetaLLM-GPT},
@@ -232,3 +232,4 @@ If you use any part of this code in your research, please cite our project:
   howpublished = {\url{https://github.com/JLX0/MetaLLM-GPT}},
   commit = {0f2cf89cdd153256a142939cedcdc58d7c4865e1}
 }
+```
