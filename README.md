@@ -54,6 +54,22 @@ conda create -n mg python=3.10
 ```
 conda activate mg
 ```
+
+* Pip. 
+It is often already installed in most systems by default. You can check whether you have pip 
+by running the following command:
+```
+which pip
+```
+If it is not installed, you can run the following command to install it:
+```
+sudo apt install python3-pip
+```
+or the following command if you are using a conda environment:
+```
+conda install pip
+```
+
 * This repository
 ```
 git clone https://github.com/JLX0/MetaLLM-GPT.git

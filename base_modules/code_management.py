@@ -62,7 +62,7 @@ class meta_python():
                           f"standard output.")
                     self.stdout = self.stdout[-output_length_limit:]
 
-            if (output_required or self.Output is not None) and "save" not in self.combined_raw_code:
+            if (output_required or self.Output is not None) and ("save" or "show") not in self.combined_raw_code:
                 if len(self.stdout) == 0:
                     print("However, the code lacks a function call or valid output")
                 else:

@@ -41,9 +41,10 @@ parser.add_argument("-p", "--privilege", help="Whether or not you allow MetaLLM-
 parser.add_argument("-e", "--environment", help='Describe the python modules in your environment which MetaLLM-GPT '
                                                 'can use to create the code. For example: "1.numpy". Default=None',
                     default=None, type=None)
-parser.add_argument("-t", "--minimum_trial", help="The minimum number of iterations MetaLLM-GPT should try. Note that \
+parser.add_argument("-t", "--minimum_trial", help="The minimum number of iterations MetaLLM-GPT should try even if"
+                                                  "the code runs smoothly. Note that \
 if the code is buggy or lacks output, then MetaLLM-GPT \
-continues beyond the minimum number of iterations. For example: 10. Default=10", default=10, type=int)
+continues beyond the minimum number of iterations. For example: 3. Default=3", default=3, type=int)
 parser.add_argument("-r", "--resume",
                     help="Whether or not you already have an existing code and want to improve/debug based on it. For "
                          "example: False, Default=False",

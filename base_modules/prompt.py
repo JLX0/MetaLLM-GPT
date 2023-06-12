@@ -59,18 +59,34 @@ class prompt_settings:
                                             + error}
             ]
         if Mode == "Improve":
-            self.prompt_message += [
-                {"role": "system", "content": "The standard output of the current code is:" + stdout},
-                {"role": "user",
-                 "content": "Improve the code:" + combined_code + f". The objective of the code is to {self.Objective}. "
-                                                                  f"The code should always include at least one "
-                                                                  f"function call inside it to demonstrate an "
-                                                                  f"execution. If my code does not contain at least "
-                                                                  f"one function call inside the code, you should "
-                                                                  f"always add at least "
-                                                                  f" one function call inside the code"},
+            if self.Output is not None:
+                self.prompt_message += [
+                    {"role": "system", "content": "The standard output of the current code is:" + stdout},
+                    {"role": "user",
+                     "content": "Improve the code:" + combined_code + f". The objective of the code is to {self.Objective}."
+                                                                      f"Check whether the standard output of the current"
+                                                                      f"code fits the objective of the code. "
+                                                                      f"The code should always include at least one "
+                                                                      f"function call inside it to demonstrate an "
+                                                                      f"execution. If my code does not contain at least "
+                                                                      f"one function call inside the code, you should "
+                                                                      f"always add at least "
+                                                                      f" one function call inside the code"}
+                ]
 
-                {"role": "system",
+            else:
+                self.prompt_message += [
+                    {"role": "system", "content": "The standard output of the current code is:" + stdout},
+                    {"role": "user",
+                     "content": "Improve the code:" + combined_code + f". The objective of the code is to {self.Objective}."
+                                                                      f"The code should always include at least one "
+                                                                      f"function call inside it to demonstrate an "
+                                                                      f"execution. If my code does not contain at least "
+                                                                      f"one function call inside the code, you should "
+                                                                      f"always add at least "
+                                                                      f" one function call inside the code"}
+                ]
+            self.prompt_message += [{"role": "system",
                  "content": "If my code does not contain at least one function call inside the code, you should "
                             "always add at least one function call inside the original code"}
             ]
