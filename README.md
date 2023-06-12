@@ -42,7 +42,7 @@ An easy-to-use __Google Colab version__ with examples is available
 [here](https://colab.research.google.com/drive/1TWN0mDmbdH1U2i85n7YUV9CKiRG0jJ9h?usp=sharing). The default settings
 of the notebook use GPU instances, but you can run the notebook without GPU.
 
-<hr
+<hr>
 
 # Installation and requirements
 
