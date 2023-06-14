@@ -36,7 +36,6 @@ class prompt_settings:
                                                          "you should switching to other modules"},
                            ]
 
-
     def __init__(self, Input, Output, Objective, Privilege, Environment):
         self.Input = Input
         self.Output = Output
@@ -87,9 +86,9 @@ class prompt_settings:
                                                                       f" one function call inside the code"}
                 ]
             self.prompt_message += [{"role": "system",
-                 "content": "If my code does not contain at least one function call inside the code, you should "
-                            "always add at least one function call inside the original code"}
-            ]
+                                     "content": "If my code does not contain at least one function call inside the code, you should "
+                                                "always add at least one function call inside the original code"}
+                                    ]
         if Mode == "Create":
             self.prompt_message += [
                 {"role": "user",
@@ -122,17 +121,16 @@ class prompt_settings:
                                                 f"message should include os.system('pip install package_name') and the"
                                                 f" rest of the codes in the same markdown block"}]
         else:
-            self.prompt_message += {"role": "system", "content": "Do not include any 'pip install' in the code"}
+            self.prompt_message += [{"role": "system", "content": "Do not include any 'pip install' in the code"}]
             if self.Environment is None:
                 self.prompt_message += [{"role": "system", "content": "The available python modules for the code "
                                                                       "only include the built-in python modules. The "
                                                                       "code in your generated response should not "
                                                                       "include any extra python packages"}]
             else:
-                self.prompt_message += [{"role": "system","content": f"The available python modules for the code only "
-                                                                     f"built-in python modules and the base_modules "
-                                                                     f"in the list: {self.Environment}"}]
-
+                self.prompt_message += [{"role": "system", "content": f"The available python modules for the code only "
+                                                                      f"built-in python modules and the base_modules "
+                                                                      f"in the list: {self.Environment}"}]
 
     def reset(self):
         self.prompt_message = deepcopy(prompt_settings.base_prompt_message)
