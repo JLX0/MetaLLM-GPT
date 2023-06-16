@@ -16,8 +16,8 @@ specialized in generating Python codes. By leveraging metaprogramming, MetaLLM-G
 stable and easier to use.
 
 Compared to [Smol developer](https://github.com/smol-ai/developer), MetaLLM-GPT is less focused on generating
-the entire project but more focused on locally testing and debugging the generated code. In the future, we might
-extend MetaLLM-GPT to generate the entire project or combine MetaLLM-GPT with Smol developer.
+the entire project but more focused on locally executing, testing and debugging the generated code. 
+In the future, we might extend MetaLLM-GPT to generate the entire project or combine MetaLLM-GPT with Smol developer.
 
 Compared to the [implicit code execution in Bard](https://blog.google/technology/ai/bard-improved-reasoning-google-sheets-export/),
 MetaLLM-GPT was created independently at the same time or earlier. While Bard is great at using codes to assist 
