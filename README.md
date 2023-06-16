@@ -15,6 +15,10 @@ Compared to [AutoGPT](https://github.com/Significant-Gravitas/Auto-GPT), MetaLLM
 specialized in generating Python codes. By leveraging metaprogramming, MetaLLM-GPT is more
 stable and easier to use.
 
+Compared to [Smol developer](https://github.com/smol-ai/developer), MetaLLM-GPT is less focused on generating
+the entire project but more focused on locally testing and debugging the generated code. In the future, we might
+extend MetaLLM-GPT to generate the entire project or combine MetaLLM-GPT with Smol developer.
+
 Compared to the [implicit code execution in Bard](https://blog.google/technology/ai/bard-improved-reasoning-google-sheets-export/),
 MetaLLM-GPT was created independently at the same time or earlier. While Bard is great at using codes to assist 
 responses from LLM, MetaLLM-GPT is great at using LLM to assist code generation. Also, MetaLLM-GPT allows for 
@@ -210,7 +214,7 @@ python3 mg.py -o "Draw a picture of a cat" -f "draw.py" -k "aa-aaaaaaaaaaaaaaaaa
 
 # Contributors
 
-Jinglue Xu, Nagar Anthel Venkatesh Suryanarayanan, Ding Xia, Yossatong Road Tianlun, Zhen Liu
+Jinglue Xu, Nagar Anthel Venkatesh Suryanarayanan, Ding Xia, Yossatong Road Tianlun, Zhen Liu, and Jianing, Qi
 
 If you have any inquiries or want to collaborate with us, please contact us by 
 emailing: jingluexu@gmail.com
@@ -224,7 +228,7 @@ If you like our project, please star our repository and share it with your frien
 If you use any part of this code in your research, please cite our project:
 ```
 @misc{Xu2023MetaLLMGPT,
-  author = {Xu, Jinglue and Suryanarayanan, Nagar Anthel Venkatesh and Xia, Ding and Tianlun, Yossatong Road and Liu, Zhen
+  author = {Xu, Jinglue and Suryanarayanan, Nagar Anthel Venkatesh and Xia, Ding and Tianlun, Yossatong Road and Liu, Zhen and Qi, Jianing},
   title = {MetaLLM-GPT},
   year = {2023},
   publisher = {GitHub},
