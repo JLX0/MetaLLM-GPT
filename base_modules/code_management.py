@@ -111,6 +111,57 @@ class meta_python():
         ret_dict["stdout"], ret_dict["error"], ret_dict["tb"], ret_dict[
             "buggy"] = self.stdout, self.error, self.tb, self.buggy
 
+def execute(
+    ret_dict,
+    code: str,
+    output_required=False,
+    capture_error=False,
+    output_length_limit=None,
+    ignore_warning=False
+):
+    ret_dict["stdout"], ret_dict["error"], ret_dict["tb"], ret_dict["buggy"] = "", "", "", False
+    try:
+        compiled_code = compile(code, 'code_to_be_compiled', 'exec')
+        f = io.StringIO()
+        with redirect_stdout(f):
+            exec(compiled_code, globals())
+        stdout = f.getvalue()
+        ret_dict["stdout"] = stdout
+        print("The code runs smoothly")
+
+        if output_length_limit is not None:
+            if len(stdout) > output_length_limit:
+                print(f"Warning: The length of the standard output is too long, \
+                                    MetaLLM-GPT only considers the last {output_length_limit} strings of the "
+                        f"standard output.")
+                stdout = stdout[-output_length_limit:]
+
+        if output_required and ("save" or "show") not in code:
+            if len(stdout) == 0:
+                print("However, the code lacks a function call or valid output")
+            else:
+                print("Output of the code:\n" + stdout)
+
+    except Exception as e:
+        if capture_error:
+            ret_dict["error"] = e
+            # self.past_error_history.append(self.error)
+            ret_dict["tb"] = str(traceback.format_exc())
+
+        if e.__class__.__name__ == 'ModuleNotFoundError':
+            if not ignore_warning:
+                print("The generated code cannot be tested due to missing packages. It is advised to either change "
+                        "the objective, describe your current environment, or install the missing packages before "
+                        "proceeding with MetaLLM-GPT")
+            if capture_error:
+                print("The error message is:", ret_dict["error"])
+        else:
+            print("The code is buggy")
+            if capture_error:
+                print(ret_dict["tb"])
+
+        ret_dict["buggy"] = True
+    
 
 def overtime_kill(target_function, target_function_args=None, time_limit=60, ret=True):
     # converting this function into a decorator might make it less convenient

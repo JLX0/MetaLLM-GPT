@@ -1,5 +1,9 @@
 from copy import deepcopy
-
+from langchain.schema import (
+    AIMessage,
+    HumanMessage,
+    SystemMessage,
+)
 
 class prompt_settings:
     base_prompt_message = [{"role": "system", "content": "You are a programming expert."},
@@ -45,6 +49,22 @@ class prompt_settings:
         self.prompt_message = deepcopy(prompt_settings.base_prompt_message)
         self.prompt_message += [{"role": "system",
                                  "content": "The objective of the code is to " + self.Objective}]
+
+    def dict2lc(self, prompt_message):
+        prompt = []
+        for message in prompt_message:
+            if message["role"] == "system":
+                prompt.append(SystemMessage(content=message["content"]))
+            elif message["role"] == "user":
+                prompt.append(HumanMessage(content=message["content"]))
+            else:
+                raise Exception("Role should be either system or user")
+        return prompt
+    
+    def generate_prompt(self, *args, **kwargs):
+        self.reset()
+        self.action_type(*args, **kwargs)
+        return self.dict2lc(self.prompt_message)
 
     def action_type(self, Mode, combined_code, error, stdout, tb):
         if Mode == "Debug":
