@@ -214,7 +214,7 @@ python3 mg.py -o "Draw a picture of a cat" -f "draw.py" -k "aa-aaaaaaaaaaaaaaaaa
 
 # Contributors
 
-Jinglue Xu, Nagar Anthel Venkatesh Suryanarayanan, Ding Xia, Yossatong Road Tianlun, Zhen Liu, and Jianing Qi
+Jinglue Xu, Nagar Anthel Venkatesh Suryanarayanan, Ding Xia, Yossathorn Tianrungroj, Zhen Liu, and Jianing Qi
 
 If you have any inquiries or want to collaborate with us, please contact us by 
 emailing: jingluexu@gmail.com
