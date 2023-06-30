@@ -1,5 +1,6 @@
 import traceback
 import time
+from typing import Optional
 
 import openai
 from langchain.chat_models import ChatOpenAI
@@ -8,6 +9,7 @@ from base_modules.inqury import GPT_turbo
 from base_modules.prompt import prompt_settings
 from base_modules.code_management import meta_python
 from base_modules.code_management import overtime_kill, execute
+from base_modules.interface import CodeBlob
 
 
 class MetaLLM_GPT:
@@ -30,11 +32,7 @@ class MetaLLM_GPT:
         self.Verbose = Verbose
 
         self.trial_count = 0
-        self.debug_required = False
-        self.result_length_sufficient = False
-        self.execution_killed = False
-        self.combined_raw_code, self.error, self.stdout, self.tb, \
-        self.retrieved_code = "", "", "", "", ""
+        self.prev_retrieved_code = ""
         self.previous_start = time.time()
         self.minimum_time_interval = minimum_time_interval
 
@@ -45,10 +43,7 @@ class MetaLLM_GPT:
         else:
             raise Exception("Model should be either 3.5 or 4")
 
-        if self.Output is None:
-            self.No_output = True
-        else:
-            self.No_output = False
+        self.No_output = (self.Output is None)
 
         self.llm = ChatOpenAI(model=self.model, openai_api_key=self.Key, max_retries=1, max_tokens=None)
         self.meta_instance = meta_python(self.File_path, Output=self.Output, Verbose=self.Verbose)
@@ -56,94 +51,69 @@ class MetaLLM_GPT:
         self.prompt.input_and_output_type()
 
     def run(self):
+        self.result_length_sufficient = False
         while True:
             try:
                 print(f"---------Iteration {self.trial_count + 1} starts!---------")
                 self.trial_count += 1
-                self.debug_required = False
-                if self.trial_count > 1:
-                    self.control_inquiry_frequency()
-
-                if self.Resume:
-                    self.read_run_and_test_previous_code()
 
                 if self.Verbose:
-                    print("Monitoring attributes:", self.debug_required, self.trial_count, self.Minimum_trial,
-                          self.result_length_sufficient, self.execution_killed, len(self.stdout), self.Output,
+                    print("Monitoring attributes:", self.trial_count, self.Minimum_trial,self.Output,
                           self.No_output,
                           self.Infinity_mode)
 
-                if not self.debug_required and self.trial_count > self.Minimum_trial and self.result_length_sufficient \
-                        and not self.execution_killed and (len(self.stdout) != 0 or self.Output is None or "save" in
-                                                           self.combined_raw_code or self.No_output) and not \
-                        self.Infinity_mode:
-                    print("MetaLLM-GPT reaches the termination criteria!")
-                    break
+                if self.trial_count > 1:
+                    self.control_inquiry_frequency()
 
-                if not self.debug_required:
-                    if (
-                            not self.Resume and self.trial_count > 1 and self.result_length_sufficient) or self.Resume:
-                        print("Begin improving the code")
-                    else:
-                        print("Begin creating the code")
+                codeblob = None
+                if self.Resume:
+                    code = self.meta_instance.read()
+                    codeblob = self.run_and_test_code(code)
+                    if self.Verbose:
+                        print(f"{codeblob=}")
+                    if not codeblob.buggy and \
+                        self.trial_count > self.Minimum_trial and \
+                        self.result_length_sufficient and \
+                        not codeblob.execution_killed and \
+                        (len(codeblob.stdout) != 0 or \
+                            self.Output is None or \
+                            "save" in codeblob.code or \
+                            self.No_output)\
+                        and not self.Infinity_mode:
+                        print("MetaLLM-GPT reaches the termination criteria!")
+                        break
+                    print("Begin improving the code")
+                else:
+                    print("Begin creating the code")
 
                 print("Thinking right now...")
+                prompt = self.prompt.generate_prompt(codeblob)
+                response_txt = self.call_LLM(prompt)
 
-                response_txt = self.choose_inquiry()
-                # response_txt = "```\nimport random\ndef q():\n    print(random.random())\nq()\n```"
-                # self.Resume = True
-
-                self.retrieve_code_and_test_length(response_txt)
+                retrieved_code = self.retrieve_code_and_test_length(response_txt)
 
                 if self.result_length_sufficient:
-                    self.meta_instance.write(self.retrieved_code)
+                    self.meta_instance.write(retrieved_code)
                     print(f"---------Iteration {self.trial_count} succeeded!---------")
             except Exception as fail:
                 result = False
                 print(f"---------Iteration {self.trial_count} failed!---------")
                 print("Reason of failure:", str(traceback.format_exc()))
 
-    def read_run_and_test_previous_code(self):
-        combined_raw_code = self.meta_instance.read()
-        self.combined_raw_code = combined_raw_code
+    def run_and_test_code(self, code: str) -> CodeBlob:
+        output_required = (self.Output is not None)
+        codeblob = overtime_kill(execute,
+                                target_function_args=(
+                                    code, 
+                                    output_required, 
+                                    True, 
+                                    2000,
+                                    self.Privilege,), 
+                                time_limit=self.Time_limit)
+        return codeblob
 
-        output_required = self.Output is not None
-        self.execution_killed, shared_variables = overtime_kill(execute,
-                                                                target_function_args=(
-                                                                    combined_raw_code, 
-                                                                    output_required, 
-                                                                    True, 
-                                                                    2000,
-                                                                    self.Privilege,), 
-                                                                time_limit=self.Time_limit)
-        if not self.execution_killed:
-            self.stdout = shared_variables["stdout"]
-            self.meta_instance.stdout = self.stdout
-            self.error = shared_variables["error"]
-            self.meta_instance.error = self.error
-            self.tb = shared_variables["tb"]
-            self.meta_instance.tb = self.tb
-            self.debug_required = shared_variables["buggy"]
-            self.meta_instance.buggy = self.debug_required
-
-    def inquiry_GPT(self, mode):
-        prompt = self.prompt.generate_prompt(mode, self.combined_raw_code, self.error, self.stdout, self.tb)
+    def call_LLM(self, prompt):
         response = self.llm(prompt)
-        return response
-
-    def choose_inquiry(self):
-        if self.Resume:
-
-            if self.execution_killed:
-                response = self.inquiry_GPT("Killed")
-            else:
-                if self.debug_required:
-                    response = self.inquiry_GPT("Debug")
-                else:
-                    response = self.inquiry_GPT("Improve")
-        else:
-            response = self.inquiry_GPT("Create")
-
         response_txt = response.content
         # TODO: log token usage here
         print("modification during this iteration:\n", response_txt)
@@ -157,17 +127,21 @@ class MetaLLM_GPT:
 
     def retrieve_code_and_test_length(self, response_txt):
         self.result_length_sufficient = True
+        retrieved_code = None
         if self.trial_count == 1:
-            self.retrieved_code = GPT_turbo.extract_code_from_GPT_turbo(response_txt)
+            retrieved_code = GPT_turbo.extract_code_from_GPT_turbo(response_txt)
         else:
-            if len(GPT_turbo.extract_code_from_GPT_turbo(response_txt)) >= 0.5 * len(self.retrieved_code):
-                self.retrieved_code = GPT_turbo.extract_code_from_GPT_turbo(response_txt)
+            if len(GPT_turbo.extract_code_from_GPT_turbo(response_txt)) >= 0.5 * len(self.prev_retrieved_code):
+                retrieved_code = GPT_turbo.extract_code_from_GPT_turbo(response_txt)
             else:
                 print(f"---------Iteration {self.trial_count} failed!---------")
                 print("Reason of failure: the modified code is too short, change aborted")
                 self.result_length_sufficient = False
         if self.Verbose:
-            print("the generated code is", self.retrieved_code)
+            print("the generated code is", retrieved_code)
+        if retrieved_code is not None:
+            self.prev_retrieved_code = retrieved_code
+        return retrieved_code
 
     def set_initial_time(self):
         self.previous_start = time.time()
