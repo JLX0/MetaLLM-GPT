@@ -105,7 +105,7 @@ class MetaLLM_GPT:
 
     def read_run_and_test_previous_code(self):
         self.meta_instance.read()
-        self.meta_instance.compile()
+        # self.meta_instance.compile()
         self.combined_raw_code = self.meta_instance.combined_raw_code
 
         if self.Output is not None:
