@@ -31,6 +31,7 @@ class meta_python():
         if self.Verbose:
             print("raw string combined:")
             print("combined raw code", repr(self.combined_raw_code))
+        return self.combined_raw_code
 
     def write(self, the_code):
         f = open(self.File_path, "w")

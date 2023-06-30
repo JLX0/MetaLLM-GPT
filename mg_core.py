@@ -104,21 +104,18 @@ class MetaLLM_GPT:
                 print("Reason of failure:", str(traceback.format_exc()))
 
     def read_run_and_test_previous_code(self):
-        self.meta_instance.read()
-        # self.meta_instance.compile()
-        self.combined_raw_code = self.meta_instance.combined_raw_code
+        combined_raw_code = self.meta_instance.read()
+        self.combined_raw_code = combined_raw_code
 
-        if self.Output is not None:
-            output_required = True
-        else:
-            output_required = False
-
-        # self.execution_killed, shared_variables = overtime_kill(self.meta_instance.execute_and_test,
-        #                                                         target_function_args=(output_required, True, 2000,
-        #                                                         self.Privilege,), time_limit=self.Time_limit)
+        output_required = self.Output is not None
         self.execution_killed, shared_variables = overtime_kill(execute,
-                                                                target_function_args=(self.meta_instance.combined_raw_code, output_required, True, 2000,
-                                                                self.Privilege,), time_limit=self.Time_limit)
+                                                                target_function_args=(
+                                                                    combined_raw_code, 
+                                                                    output_required, 
+                                                                    True, 
+                                                                    2000,
+                                                                    self.Privilege,), 
+                                                                time_limit=self.Time_limit)
         if not self.execution_killed:
             self.stdout = shared_variables["stdout"]
             self.meta_instance.stdout = self.stdout
