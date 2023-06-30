@@ -228,7 +228,7 @@ If you like our project, please star our repository and share it with your frien
 If you use any part of this code in your research, please cite our project:
 ```
 @misc{Xu2023MetaLLMGPT,
-  author = {Xu, Jinglue and Suryanarayanan, Nagar Anthel Venkatesh and Xia, Ding and Tianrungroj, Yosathorn and Liu, Zhen and Qi, Jianing},
+  author = {Xu, Jinglue and Suryanarayanan, Nagar Anthel Venkatesh and Xia, Ding and Tianrungroj, Yossathorn and Liu, Zhen and Qi, Jianing},
   title = {MetaLLM-GPT},
   year = {2023},
   publisher = {GitHub},
