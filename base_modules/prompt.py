@@ -69,9 +69,17 @@ class prompt_settings:
         self.action_type(*args, **kwargs)
         return self.dict2lc(self.prompt_message)
 
-    def action_type(self, Mode, prev_codeblob: Optional[CodeBlob]=None):
-        if Mode != "Create":
-            assert prev_codeblob is not None
+    def action_type(self, prev_codeblob: Optional[CodeBlob]=None):
+        if prev_codeblob is not None:
+            if prev_codeblob.execution_killed:
+                Mode = "Killed"
+            else:
+                if prev_codeblob.buggy:
+                    Mode = "Debug"
+                else:
+                    Mode = "Improve"
+        else:
+            Mode = "Create"
         if Mode == "Debug":
             self.prompt_message += [
                 {"role": "system", "content": "The error message of the current code is:" + prev_codeblob.error},
