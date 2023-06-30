@@ -1,9 +1,12 @@
+from typing import Optional
 from copy import deepcopy
 from langchain.schema import (
     AIMessage,
     HumanMessage,
     SystemMessage,
 )
+
+from base_modules.interface import CodeBlob
 
 class prompt_settings:
     base_prompt_message = [{"role": "system", "content": "You are a programming expert."},
@@ -66,23 +69,25 @@ class prompt_settings:
         self.action_type(*args, **kwargs)
         return self.dict2lc(self.prompt_message)
 
-    def action_type(self, Mode, combined_code, error, stdout, tb):
+    def action_type(self, Mode, prev_codeblob: Optional[CodeBlob]=None):
+        if Mode != "Create":
+            assert prev_codeblob is not None
         if Mode == "Debug":
             self.prompt_message += [
-                {"role": "system", "content": "The error message of the current code is:" + error},
-                {"role": "system", "content": "The traceback of the exception is:" + tb},
-                {"role": "user", "content": "Debug the code:" + combined_code + "The code should always include at "
+                {"role": "system", "content": "The error message of the current code is:" + prev_codeblob.error},
+                {"role": "system", "content": "The traceback of the exception is:" + prev_codeblob.tb},
+                {"role": "user", "content": "Debug the code:" + prev_codeblob.code + "The code should always include at "
                                                                                 "least one function call inside it "
                                                                                 "to demonstrate an execution. You "
                                                                                 "should consider the error message:"
-                                            + error}
+                                            + prev_codeblob.error}
             ]
         if Mode == "Improve":
             if self.Output is not None:
                 self.prompt_message += [
-                    {"role": "system", "content": "The standard output of the current code is:" + stdout},
+                    {"role": "system", "content": "The standard output of the current code is:" + prev_codeblob.stdout},
                     {"role": "user",
-                     "content": "Improve the code:" + combined_code + f". The objective of the code is to {self.Objective}."
+                     "content": "Improve the code:" + prev_codeblob.code + f". The objective of the code is to {self.Objective}."
                                                                       f"Check whether the standard output of the current"
                                                                       f"code fits the objective of the code. "
                                                                       f"The code should always include at least one "
@@ -95,9 +100,9 @@ class prompt_settings:
 
             else:
                 self.prompt_message += [
-                    {"role": "system", "content": "The standard output of the current code is:" + stdout},
+                    {"role": "system", "content": "The standard output of the current code is:" + prev_codeblob.stdout},
                     {"role": "user",
-                     "content": "Improve the code:" + combined_code + f". The objective of the code is to {self.Objective}."
+                     "content": "Improve the code:" + prev_codeblob.code + f". The objective of the code is to {self.Objective}."
                                                                       f"The code should always include at least one "
                                                                       f"function call inside it to demonstrate an "
                                                                       f"execution. If my code does not contain at least "
@@ -119,7 +124,7 @@ class prompt_settings:
         if Mode == "Killed":
             self.prompt_message += [
                 {"role": "user",
-                 "content": f"The code {combined_code} takes too long to run, modify the code so that it takes "
+                 "content": f"The code {prev_codeblob.code} takes too long to run, modify the code so that it takes "
                             f"shorter time to finish. The objective of the code is to {self.Objective}."}
             ]
 

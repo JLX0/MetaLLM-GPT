@@ -3,6 +3,9 @@ from contextlib import redirect_stdout
 import traceback
 import multiprocessing
 
+from base_modules.interface import CodeBlob
+import time
+
 
 class meta_python():
 
@@ -11,15 +14,6 @@ class meta_python():
         self.Verbose = Verbose
         self.Output = Output
 
-        self.combined_raw_code = ""
-        self.compiled_code = ""
-        self.stdout = ""
-        self.past_error_history = []  # check whether error repeats a lot?
-        self.buggy = False
-        self.error = ""
-        self.stdout = ""
-        self.tb = ""
-
     def read(self):
         file = open(self.File_path, "r")
         line_list = file.readlines()
@@ -27,11 +21,11 @@ class meta_python():
             print("raw string line by line:")
             for line in line_list:
                 print(repr(line))
-        self.combined_raw_code = "".join(str(item) for item in line_list)
+        combined_raw_code = "".join(str(item) for item in line_list)
         if self.Verbose:
             print("raw string combined:")
-            print("combined raw code", repr(self.combined_raw_code))
-        return self.combined_raw_code
+            print("combined raw code", repr(combined_raw_code))
+        return combined_raw_code
 
     def write(self, the_code):
         f = open(self.File_path, "w")
@@ -46,12 +40,15 @@ def execute(
     output_length_limit=None,
     ignore_warning=False
 ):
-    ret_dict["stdout"], ret_dict["error"], ret_dict["tb"], ret_dict["buggy"] = "", "", "", False
     try:
+        ret_dict["code"] = code
         compiled_code = compile(code, 'code_to_be_compiled', 'exec')
         f = io.StringIO()
         with redirect_stdout(f):
+            s = time.time()
             exec(compiled_code, {})
+            e = time.time()
+        ret_dict["execution_time"] = e - s
         stdout = f.getvalue()
         ret_dict["stdout"] = stdout
         print("The code runs smoothly")
@@ -86,7 +83,6 @@ def execute(
             print("The code is buggy")
             if capture_error:
                 print(ret_dict["tb"])
-
         ret_dict["buggy"] = True
     
 
@@ -108,7 +104,14 @@ def overtime_kill(target_function, target_function_args=None, time_limit=60, ret
         print(f"The execution of the code takes longer than {time_limit} seconds, terminating the execution...")
         p.terminate()
         p.join()
-        return True, dict(ret_dict)
+        killed = True
     else:
+        killed = False
         print("The execution of the code finishes in time")
-        return False, dict(ret_dict)
+    
+    ret_dict = dict(ret_dict)
+    kwargs = {k: v for k,v in ret_dict.items() if k in CodeBlob._fields}
+    kwargs["execution_killed"] = killed
+    if not "execution_time" in kwargs:
+        kwargs["execution_time"] = time_limit
+    return CodeBlob(**kwargs)
