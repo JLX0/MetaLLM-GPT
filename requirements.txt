@@ -1,2 +1,3 @@
 openai==0.27.8
 langchain==0.0.217
+pytest>=7.0.0
