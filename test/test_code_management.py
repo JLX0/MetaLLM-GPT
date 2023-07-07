@@ -2,9 +2,6 @@ from base_modules.interface import CodeBlob
 from base_modules.code_management import overtime_kill, execute
 
 
-def test_example():
-    assert(1+2==3)
-
 def assert_codeblob_type(codeblob: CodeBlob):
     """
         assert that the type of all fields of codeblob is valid
