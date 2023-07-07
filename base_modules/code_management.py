@@ -50,7 +50,7 @@ def execute(
             e = time.time()
         ret_dict["execution_time"] = e - s
         stdout = f.getvalue()
-        ret_dict["stdout"] = stdout
+        ret_dict["stdout"] = str(stdout)
         print("The code runs smoothly")
 
         if output_length_limit is not None:
@@ -68,7 +68,7 @@ def execute(
 
     except Exception as e:
         if capture_error:
-            ret_dict["error"] = e
+            ret_dict["error"] = str(e)
             # self.past_error_history.append(self.error)
             ret_dict["tb"] = str(traceback.format_exc())
 
