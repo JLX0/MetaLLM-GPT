@@ -1,29 +1,15 @@
 # Introduction
 
-MetaLLM-GPT is an application that automatically generates Python codes based on GPT (as used
-in ChatGPT).
+In short, you can think of MetaLLM-GPT as __an open-source and more versatile version of the 
+code interpreter plugin in ChatGPT__.
 
 While the naive GPT model (as used in ChatGPT) can generate Python codes, the code 
 it generates often contains errors. When using ChatGPT to create Python codes,
 you might find the code is unable to run due to various reasons (e.g., syntax errors).
 Then you might try to manually debug it or ask ChatGPT again about how to fix it. If
 you are tired of this repetitive process, MetaLLM-GPT is for you! Compared to ChatGPT, 
-MetaLLM-GPT tests the generated/managed codes locally and automatically ensures that 
-the code can run smoothly and meet certain expectations. 
-
-Compared to [AutoGPT](https://github.com/Significant-Gravitas/Auto-GPT), MetaLLM-GPT is more
-specialized in generating Python codes. By leveraging metaprogramming, MetaLLM-GPT is more
-stable and easier to use.
-
-Compared to [Smol developer](https://github.com/smol-ai/developer), MetaLLM-GPT is less focused on generating
-the entire project but more focused on locally executing, testing and debugging the generated code. 
-In the future, we might extend MetaLLM-GPT to generate the entire project or combine MetaLLM-GPT with Smol developer.
-
-Compared to the [implicit code execution in Bard](https://blog.google/technology/ai/bard-improved-reasoning-google-sheets-export/),
-MetaLLM-GPT was created independently at the same time or earlier. While Bard is great at using codes to assist 
-responses from LLM, MetaLLM-GPT is great at using LLM to assist code generation. Also, MetaLLM-GPT allows for 
-more complex code generation and execution, such as automatically installing packages, automatically debugging,
-and using GPU.
+__MetaLLM-GPT tests the generated/managed codes locally and automatically ensures that 
+the code can run smoothly and meet certain expectations!__. 
 
 MetaLLM-GPT combines metaprogramming (in Python) and large language models (LLMs) (GPT). 
 * [Metaprogramming](https://en.wikipedia.org/wiki/Metaprogramming) refers to the 
@@ -31,8 +17,6 @@ programming method which involves one program (the meta program) reading/writing
 program (the target program).
 * [LLMs](https://en.wikipedia.org/wiki/Large_language_model) are recently developed neural 
 networks that can generate text based on the context.
-
-
 
 Here is a simple illustration of our algorithm:
 
@@ -48,6 +32,28 @@ of the notebook use GPU instances, but you can run the notebook without GPU.
 
 <hr>
 
+# Comparison to other apps
+
+Compared to the [code interpreter plugin](https://openai.com/blog/chatgpt-plugins#code-interpreter) in ChatGPT, MetaLLM-GPT is created much earlier, can automatically install packages,
+limits code execution time, is compatible with machines with heavy-duty GPUs, and improves codes besides debugging. Also,
+the code base of MetaLLM-GPT can be easily extended/modified for other purposes, such as using LLMs other than GPT.
+
+Compared to [AutoGPT](https://github.com/Significant-Gravitas/Auto-GPT), MetaLLM-GPT is more
+specialized in generating Python codes. By leveraging metaprogramming, MetaLLM-GPT is more
+stable and easier to use.
+
+Compared to [Smol developer](https://github.com/smol-ai/developer), MetaLLM-GPT is less focused on generating
+the entire project but more focused on locally executing, testing and debugging the generated code. 
+In the future, we might extend MetaLLM-GPT to generate the entire project or combine MetaLLM-GPT with Smol developer.
+
+Compared to the [implicit code execution in Bard](https://blog.google/technology/ai/bard-improved-reasoning-google-sheets-export/),
+MetaLLM-GPT was created independently at the same time or earlier. While Bard is great at using codes to assist 
+responses from LLM, MetaLLM-GPT is great at using LLM to assist code generation. Also, MetaLLM-GPT allows for 
+more complex code generation and execution, such as automatically installing packages, automatically debugging,
+and using GPU.
+
+<hr>
+
 # Installation and requirements
 
 * Linux-based system (tested with Ubuntu 20.04 and 22.02)
@@ -60,7 +66,7 @@ conda create -n mg python=3.10
 conda activate mg
 ```
 
-* Pip. 
+* Pip
 
 It is often already installed in most systems by default. You can check whether you have pip 
 by running the following command:
@@ -135,25 +141,23 @@ set the argument *-g* to "4".
 2. Please replace the key *"aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"* with your
 own OpenAPI key. 
 
-## Example 1: Generate a deep neural network using GPU
+## Example 1: Classify the breed of a pet using GPU
 
-This command assumes that in your current environment, Pytorch is installed. If you prefer other deep
-learning packages, please modify the *-e* arguments. The expected input of the neural network is the
-batch size, learning rate, and training epochs. The expected output of the neural network is the 
-validation accuracy of the model.
+This example generates a deep neural network that can classify the breed of a pet using the pictures of pets located at 
+/samples/cat_1.png and /samples/dog_1.png. This example sets the *-p* argument as True, because the required packages 
+are not commonly installed. It is advised to set up a virtual environment for this example.
 
 ```
-python3 mg.py -o "create a deep neural network that uses GPU" -f "DNN.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1. bs: batch size 2. l:learning rate 3. e: training epochs " -out "the validation accuracy of the neural network" -e "1.pytorch" -l 300
+python3 mg.py -o "Given the pictures of a pet, tell me the breed of the pet" -f "DNN.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1. pic. picture of the pet. for example, the pictures located at "/samples/cat_1.png" and "/samples/dog_1.png" 2. top_num. the number of the top predictions " -out "the breed of the pet" -p True -l 300
 ```
 The generated code is saved in your current working directory as a file named 
-*dnn.py*. Sample codes generated by this command can be found in the folder *samples* (*dnn_1.py* and 
-*dnn_2.py*)
+*dnn.py*.
 
 The above commands assume that in your current environment, a GPU device is available to the Python packages. 
 If not, please use the following command instead:
 
 ```
-python3 mg.py -o "create a deep neural network that uses CPU" -f "DNN.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1. bs: batch size 2. l:learning rate 3. e: training epochs " -out "the validation accuracy of the neural network" -e "1.pytorch" -l 300
+python3 mg.py -o "Given the pictures of a pet, tell me the breed of the pet. The code should not use GPU" -f "DNN.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1. pic. picture of the pet. for example, the pictures located at "/samples/cat_1.png" and "/samples/dog_1.png" 2. top_num. the number of the top predictions " -out "the breed of the pet" -p True -l 300
 ```
 
 ## Example 2: Solve an undergraduate math problem
