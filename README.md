@@ -2,6 +2,7 @@
 
 In short, you can think of MetaLLM-GPT as __an open-source and more versatile version of the 
 [code interpreter plugin](https://openai.com/blog/chatgpt-plugins#code-interpreter) in ChatGPT__.
+If you use it proficiently, it can __save up to 80% of your time spent on programming__.
 An easy-to-use __Google Colab version__ with examples is available 
 [here](https://colab.research.google.com/drive/1TWN0mDmbdH1U2i85n7YUV9CKiRG0jJ9h?usp=sharing).
 
