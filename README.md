@@ -148,7 +148,7 @@ This example generates a deep neural network that can classify the breed of a pe
 are not commonly installed. It is advised to set up a virtual environment for this example.
 
 ```
-python3 mg.py -o "Given the pictures of a pet, tell me the breed of the pet" -f "DNN.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1. pic. picture of the pet. for example, the pictures located at "/samples/cat_1.png" and "/samples/dog_1.png" 2. top_num. the number of the top predictions " -out "the breed of the pet" -p True -l 300
+python3 mg.py -o "Given the picture of a pet, tell me the breed of the pet" -f "DNN.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1. pic. picture of the pet. for example, the pictures located at "/samples/cat_1.png" and "/samples/dog_1.png" 2. top_num. the number of the top predictions " -out "the breed of the pet" -p True -l 300
 ```
 The generated code is saved in your current working directory as a file named 
 *dnn.py*.
@@ -157,7 +157,7 @@ The above commands assume that in your current environment, a GPU device is avai
 If not, please use the following command instead:
 
 ```
-python3 mg.py -o "Given the pictures of a pet, tell me the breed of the pet. The code should not use GPU" -f "DNN.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1. pic. picture of the pet. for example, the pictures located at "/samples/cat_1.png" and "/samples/dog_1.png" 2. top_num. the number of the top predictions " -out "the breed of the pet" -p True -l 300
+python3 mg.py -o "Given the picture of a pet, tell me the breed of the pet. The code should not use GPU" -f "DNN.py" -k "aa-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -in "1. pic. picture of the pet. for example, the pictures located at "/samples/cat_1.png" and "/samples/dog_1.png" 2. top_num. the number of the top predictions " -out "the breed of the pet" -p True -l 300
 ```
 
 ## Example 2: Solve an undergraduate math problem
