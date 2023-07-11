@@ -11,7 +11,7 @@ you might find the code is unable to run due to various reasons (e.g., syntax er
 Then you might try to manually debug it or ask ChatGPT again about how to fix it. If
 you are tired of this repetitive process, MetaLLM-GPT is for you! Compared to ChatGPT, 
 __MetaLLM-GPT tests the generated/managed codes locally and automatically ensures that 
-the code can run smoothly and meet certain expectations!__. 
+the code can run smoothly and meet certain expectations!__
 
 MetaLLM-GPT combines metaprogramming (in Python) and large language models (LLMs) (GPT). 
 * [Metaprogramming](https://en.wikipedia.org/wiki/Metaprogramming) refers to the 
