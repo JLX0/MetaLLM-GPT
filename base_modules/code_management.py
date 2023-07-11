@@ -3,6 +3,9 @@ from contextlib import redirect_stdout
 import traceback
 import multiprocessing
 
+from base_modules.interface import CodeBlob
+import time
+
 
 class meta_python():
 
@@ -11,15 +14,6 @@ class meta_python():
         self.Verbose = Verbose
         self.Output = Output
 
-        self.combined_raw_code = ""
-        self.compiled_code = ""
-        self.stdout = ""
-        self.past_error_history = []  # check whether error repeats a lot?
-        self.buggy = False
-        self.error = ""
-        self.stdout = ""
-        self.tb = ""
-
     def read(self):
         file = open(self.File_path, "r")
         line_list = file.readlines()
@@ -27,90 +21,70 @@ class meta_python():
             print("raw string line by line:")
             for line in line_list:
                 print(repr(line))
-        self.combined_raw_code = "".join(str(item) for item in line_list)
+        combined_raw_code = "".join(str(item) for item in line_list)
         if self.Verbose:
             print("raw string combined:")
-            print("combined raw code", repr(self.combined_raw_code))
+            print("combined raw code", repr(combined_raw_code))
+        return combined_raw_code
 
     def write(self, the_code):
         f = open(self.File_path, "w")
         f.write(the_code)
         f.close()
 
-    def compile(self):
-        try:
-            self.compiled_code = compile(self.combined_raw_code, 'code_to_be_compiled', 'exec')
-        except:
-            print("The compilation process failed")
+def execute(
+    ret_dict,
+    code: str,
+    output_required=False,
+    capture_error=False,
+    output_length_limit=None,
+    ignore_warning=False
+):
+    try:
+        ret_dict["code"] = code
+        compiled_code = compile(code, 'code_to_be_compiled', 'exec')
+        f = io.StringIO()
+        with redirect_stdout(f):
+            s = time.time()
+            exec(compiled_code, {})
+            e = time.time()
+        ret_dict["execution_time"] = e - s
+        stdout = f.getvalue()
+        ret_dict["stdout"] = str(stdout)
+        print("The code runs smoothly")
 
-    def execute_and_test_base(self, output_required=False, capture_error=False, output_length_limit=None,
-                              ignore_warning=False):
+        if output_length_limit is not None:
+            if len(stdout) > output_length_limit:
+                print(f"Warning: The length of the standard output is too long, \
+                                    MetaLLM-GPT only considers the last {output_length_limit} strings of the "
+                        f"standard output.")
+                stdout = stdout[-output_length_limit:]
 
-        print("Begin running the code")
-
-        try:
-            f = io.StringIO()
-            with redirect_stdout(f):
-                exec(self.compiled_code, globals())
-            self.stdout = f.getvalue()
-            print("The code runs smoothly")
-
-            if output_length_limit is not None:
-                if len(self.stdout) > output_length_limit:
-                    print(f"Warning: The length of the standard output is too long, \
-                                       MetaLLM-GPT only considers the last {output_length_limit} strings of the "
-                          f"standard output.")
-                    self.stdout = self.stdout[-output_length_limit:]
-
-            if (output_required or self.Output is not None) and ("save" or "show") not in self.combined_raw_code:
-                if len(self.stdout) == 0:
-                    print("However, the code lacks a function call or valid output")
-                else:
-                    print("Output of the code:\n" + self.stdout)
-
-        except Exception as e:
-            if capture_error:
-                self.error = str(e)
-                self.past_error_history.append(self.error)
-                self.tb = str(traceback.format_exc())
-
-            if e.__class__.__name__ == 'ModuleNotFoundError':
-                if not ignore_warning:
-                    print("The generated code cannot be tested due to missing packages. It is advised to either change "
-                          "the objective, describe your current environment, or install the missing packages before "
-                          "proceeding with MetaLLM-GPT")
-                if capture_error:
-                    print("The error message is:", self.error)
+        if output_required and ("save" or "show") not in code:
+            if len(stdout) == 0:
+                print("However, the code lacks a function call or valid output")
             else:
-                print("The code is buggy")
-                if capture_error:
-                    print(self.tb)
+                print("Output of the code:\n" + stdout)
 
-            self.buggy = True
+    except Exception as e:
+        if capture_error:
+            ret_dict["error"] = str(e)
+            # self.past_error_history.append(self.error)
+            ret_dict["tb"] = str(traceback.format_exc())
 
-    def execute_and_test(self, ret_dict, output_required=False, capture_error=False, output_length_limit=None,
-                         ignore_warning=False):
-
-        global_before = list(globals().keys())
-        if self.Verbose:
-            print("global variables before testing:", global_before)
-
-        self.execute_and_test_base(output_required, capture_error, output_length_limit, ignore_warning=ignore_warning)
-
-        global_after = list(globals().keys())
-        if self.Verbose:
-            print("global variables after testing:", global_after)
-
-        excessive_global = [x for x in global_after if x not in global_before]
-        if self.Verbose:
-            print("excessive global variables:", excessive_global)
-
-        for n in excessive_global:
-            del globals()[n]
-
-        ret_dict["stdout"], ret_dict["error"], ret_dict["tb"], ret_dict[
-            "buggy"] = self.stdout, self.error, self.tb, self.buggy
-
+        if e.__class__.__name__ == 'ModuleNotFoundError':
+            if not ignore_warning:
+                print("The generated code cannot be tested due to missing packages. It is advised to either change "
+                        "the objective, describe your current environment, or install the missing packages before "
+                        "proceeding with MetaLLM-GPT")
+            if capture_error:
+                print("The error message is:", ret_dict["error"])
+        else:
+            print("The code is buggy")
+            if capture_error:
+                print(ret_dict["tb"])
+        ret_dict["buggy"] = True
+    
 
 def overtime_kill(target_function, target_function_args=None, time_limit=60, ret=True):
     # converting this function into a decorator might make it less convenient
@@ -130,7 +104,14 @@ def overtime_kill(target_function, target_function_args=None, time_limit=60, ret
         print(f"The execution of the code takes longer than {time_limit} seconds, terminating the execution...")
         p.terminate()
         p.join()
-        return True, dict(ret_dict)
+        killed = True
     else:
+        killed = False
         print("The execution of the code finishes in time")
-        return False, dict(ret_dict)
+    
+    ret_dict = dict(ret_dict)
+    kwargs = {k: v for k,v in ret_dict.items() if k in CodeBlob._fields}
+    kwargs["execution_killed"] = killed
+    if not "execution_time" in kwargs:
+        kwargs["execution_time"] = time_limit
+    return CodeBlob(**kwargs)

@@ -89,9 +89,9 @@ git clone https://github.com/JLX0/MetaLLM-GPT.git
 ```
 cd MetaLLM-GPT
 ```
-* The OpenAI Python library (tested with 0.27.6)
+* The OpenAI Python library and Langchain
 ```
-pip install openai
+pip install -r requirements.txt
 ```
 
 * OpenAI API key with GPT-3.5 and/or GPT 4 access. You can get one from
@@ -218,7 +218,7 @@ python3 mg.py -o "Draw a picture of a cat" -f "draw.py" -k "aa-aaaaaaaaaaaaaaaaa
 
 # Contributors
 
-Jinglue Xu, Nagar Anthel Venkatesh Suryanarayanan, Ding Xia, Yossatong Road Tianlun, Zhen Liu, and Jianing Qi
+Jinglue Xu, Nagar Anthel Venkatesh Suryanarayanan, Ding Xia, Yossathorn Tianrungroj, Zhen Liu, and Jianing Qi
 
 If you have any inquiries or want to collaborate with us, please contact us by 
 emailing: jingluexu@gmail.com
@@ -232,7 +232,7 @@ If you like our project, please star our repository and share it with your frien
 If you use any part of this code in your research, please cite our project:
 ```
 @misc{Xu2023MetaLLMGPT,
-  author = {Xu, Jinglue and Suryanarayanan, Nagar Anthel Venkatesh and Xia, Ding and Tianlun, Yossatong Road and Liu, Zhen and Qi, Jianing},
+  author = {Xu, Jinglue and Suryanarayanan, Nagar Anthel Venkatesh and Xia, Ding and Tianrungroj, Yossathorn and Liu, Zhen and Qi, Jianing},
   title = {MetaLLM-GPT},
   year = {2023},
   publisher = {GitHub},
