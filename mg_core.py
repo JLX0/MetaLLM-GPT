@@ -1,4 +1,5 @@
 import traceback
+import time
 
 import openai
 
@@ -96,6 +97,7 @@ class MetaLLM_GPT:
                     self.meta_instance.write(self.retrieved_code)
                     print(f"---------Iteration {self.trial_count} succeeded!---------")
             except Exception as fail:
+                time.sleep(1)
                 result = False
                 print(f"---------Iteration {self.trial_count} failed!---------")
                 print("Reason of failure:", str(traceback.format_exc()))
