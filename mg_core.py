@@ -1,6 +1,5 @@
 import traceback
 import time
-from typing import Optional
 
 import openai
 from langchain.chat_models import ChatOpenAI
@@ -96,6 +95,7 @@ class MetaLLM_GPT:
                     self.meta_instance.write(retrieved_code)
                     print(f"---------Iteration {self.trial_count} succeeded!---------")
             except Exception as fail:
+                time.sleep(1)
                 result = False
                 print(f"---------Iteration {self.trial_count} failed!---------")
                 print("Reason of failure:", str(traceback.format_exc()))
