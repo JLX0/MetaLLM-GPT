@@ -3,7 +3,6 @@ from contextlib import redirect_stdout
 import traceback
 import multiprocessing
 
-
 class meta_python():
 
     def __init__(self, File_path, Output=None, Verbose=False):
@@ -12,6 +11,8 @@ class meta_python():
         self.Output = Output
 
         self.combined_raw_code = ""
+        self.combined_extracted_code = ""
+        self.code_block_list = []
         self.compiled_code = ""
         self.stdout = ""
         self.past_error_history = []  # check whether error repeats a lot?
@@ -20,17 +21,34 @@ class meta_python():
         self.stdout = ""
         self.tb = ""
 
-    def read(self):
+    def read(self, start_line=None, end_line=None, auto_separation=False, minimum_length=100, maximum_length=300):
         file = open(self.File_path, "r")
+
         line_list = file.readlines()
         if self.Verbose:
             print("raw string line by line:")
             for line in line_list:
                 print(repr(line))
+
         self.combined_raw_code = "".join(str(item) for item in line_list)
         if self.Verbose:
-            print("raw string combined:")
             print("combined raw code", repr(self.combined_raw_code))
+
+        if auto_separation:
+            self.code_block_list = separate_into_blocks(self.combined_raw_code, minimum_length=minimum_length,
+                                                        maximum_length=maximum_length)
+            if self.Verbose:
+                for n in self.code_block_list:
+                    print("--Block begins--")
+                    print(n)
+                    print("--Block ends--")
+        else:
+            if start_line is not None and end_line is not None:
+                focused_line_list = line_list[start_line - 1:end_line]
+                self.combined_extracted_code = "".join(str(item) for item in focused_line_list)
+
+                if self.Verbose:
+                    print("combined extracted code", repr(self.combined_extracted_code))
 
     def write(self, the_code):
         f = open(self.File_path, "w")
@@ -41,11 +59,10 @@ class meta_python():
         try:
             self.compiled_code = compile(self.combined_raw_code, 'code_to_be_compiled', 'exec')
         except:
-            print("The compilation process failed")
+            raise Exception("The compilation process failed")
 
     def execute_and_test_base(self, output_required=False, capture_error=False, output_length_limit=None,
                               ignore_warning=False):
-
         print("Begin running the code")
 
         try:
@@ -114,6 +131,22 @@ class meta_python():
 
 def overtime_kill(target_function, target_function_args=None, time_limit=60, ret=True):
     # converting this function into a decorator might make it less convenient
+
+    """
+    Run a target function with a time limit and terminate if it exceeds the limit.
+
+    Args:
+        target_function (function): The function to be executed.
+        target_function_args (tuple or None): Optional arguments to be passed to the target function (default: None).
+        time_limit (int): The time limit in seconds (default: 60).
+        ret (bool): Flag indicating if some information in the target function needs to be captured (default: True).
+
+    Returns:
+        tuple: A tuple containing two elements:
+            - A bool indicating whether the execution exceeded the time limit (True) or not (False).
+            - A dictionary with the captured information from the target function.
+
+    """
 
     ret_dict = multiprocessing.Manager().dict()
 
