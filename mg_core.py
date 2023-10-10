@@ -97,6 +97,7 @@ class MetaLLM_GPT:
                     self.meta_instance.write(self.retrieved_code)
                     print(f"---------Iteration {self.trial_count} succeeded!---------")
             except Exception as fail:
+                time.sleep(1)
                 result = False
                 time.sleep(1)
                 print(f"---------Iteration {self.trial_count} failed!---------")
