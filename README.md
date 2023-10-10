@@ -33,6 +33,8 @@ An easy-to-use __Google Colab version__ with examples is available
 [here](https://colab.research.google.com/drive/1TWN0mDmbdH1U2i85n7YUV9CKiRG0jJ9h?usp=sharing). The default settings
 of the notebook use GPU instances, but you can run the notebook without GPU.
 
+An experimental branch with langchain integrated, maintained by @juno-t, is available [here](https://github.com/Juno-T/MetaLLM-GPT)
+
 <hr>
 
 # Comparison to other apps
@@ -235,7 +237,7 @@ If you like our project, please star our repository and share it with your frien
 If you use any part of this code in your research, please cite our project:
 ```
 @misc{Xu2023MetaLLMGPT,
-  author = {Xu, Jinglue and Suryanarayanan, Nagar Anthel Venkatesh and Xia, Ding and Tianlun, Yossatong Road and Liu, Zhen and Qi, Jianing},
+  author = {Xu, Jinglue and Suryanarayanan, Nagar Anthel Venkatesh and Xia, Ding and Tianrungroj, Yossathorn and Liu, Zhen and Qi, Jianing},
   title = {MetaLLM-GPT},
   year = {2023},
   publisher = {GitHub},
